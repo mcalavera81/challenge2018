@@ -1,0 +1,14 @@
+{
+  "type": "diff-orders",
+  "book": "btc_mxn",
+  "payload": [
+    {
+      "o": "CGTRaMPnXWGae0gMi",
+      "d": 1528557419646,
+      "r": "179130.97",
+      "t": 1,
+      "s": "cancelled"
+    }
+  ],
+  "sequence": 94624983
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="900" prefWidth="1280"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="order_book"
+            fx:controller="demo.order.view.OrderBookController">
+
+    <children>
+        <TableView fx:id="bids" layoutX="39.0" layoutY="32.0" prefHeight="314.0"
+                   prefWidth="470.0" AnchorPane.bottomAnchor="100.0"
+                   AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0"/>
+
+        <TableView fx:id="asks" layoutX="427.0" layoutY="32.0"
+                   prefHeight="314.0" prefWidth="470.0"
+                   AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="40.0"
+                   AnchorPane.topAnchor="100.0"/>
+
+        <Label alignment="CENTER" layoutX="175.0" layoutY="37.0"
+               prefHeight="51.0" prefWidth="352.0" text="Order Book"
+               textAlignment="CENTER" AnchorPane.leftAnchor="175.0"
+               AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="37.0"/>
+
+    </children>
+</AnchorPane>

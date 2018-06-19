@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<TabPane layoutX="14.0" layoutY="27.0" prefHeight="900" prefWidth="1280"
+         tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="demo.shared.MainController">
+    <tabs>
+        <Tab text="Order Book">
+            <content>
+                <fx:include source="/fxml/order/order_book.fxml"
+                            fx:id="orderBook"/>
+
+            </content>
+        </Tab>
+        <Tab text="Recent Trades">
+            <content>
+                <fx:include source="/fxml/trade/recent_trades.fxml"
+                             fx:id="recentTrades"/>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
+

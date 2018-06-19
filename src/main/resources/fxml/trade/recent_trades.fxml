@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="900" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="recent_trades"
+            fx:controller="demo.trade.view.RecentTradesController">
+    <children>
+        <Label alignment="CENTER" layoutX="135.0" layoutY="37.0"
+               prefHeight="16.0" prefWidth="330.0" text="Recent Trades"
+               textAlignment="CENTER"/>
+        <TableView fx:id="tradeTable" layoutX="79.0" layoutY="64.0"
+                   prefHeight="330.0" prefWidth="440.0"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0"
+                   AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="60.0"/>
+    </children>
+</AnchorPane>

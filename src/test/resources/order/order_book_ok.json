@@ -1,0 +1,53 @@
+{
+  "success": true,
+  "payload": {
+    "updated_at": "2018-06-08T10:12:32+00:00",
+    "bids": [
+      {
+        "book": "btc_mxn",
+        "price": "153000.34",
+        "amount": "0.03130098",
+        "oid": "KZMKLAGtyIpAv7KS"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "153000.30",
+        "amount": "2.43534000",
+        "oid": "zSOWb0upN1i9PHno"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "153000.00",
+        "amount": "0.06035295",
+        "oid": "AUdqi4JtzyMPbhDS"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "152804.21",
+        "amount": "0.00339332",
+        "oid": "ruDJIszFH074brs9"
+      }
+    ],
+    "asks": [
+      {
+        "book": "btc_mxn",
+        "price": "155351.47",
+        "amount": "0.03943266",
+        "oid": "j0lstDtfBH1iuLcI"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "155351.88",
+        "amount": "0.12841266",
+        "oid": "E2q6k0YfUFgt9jW9"
+      },
+      {
+        "book": "btc_mxn",
+        "price": "155354.48",
+        "amount": "2.43534000",
+        "oid": "pht1VGzjoQ08TdPL"
+      }
+    ],
+    "sequence": "94363704"
+  }
+}
