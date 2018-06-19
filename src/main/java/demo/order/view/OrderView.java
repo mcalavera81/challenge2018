@@ -3,7 +3,7 @@ package demo.order.view;
 import demo.order.domain.Order;
 import demo.order.domain.Order.Ask;
 import demo.order.domain.Order.Bid;
-import demo.order.parser.UtilParser;
+import demo.shared.formatter.UtilFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.NoArgsConstructor;
@@ -71,7 +71,7 @@ public class OrderView {
             ov.setId(o.getId());
             ov.setAmount(o.getAmount());
             ov.setPrice(o.getPrice());
-            ov.setTimestamp(UtilParser.orderDateFormat(o.getTimestamp()));
+            ov.setTimestamp(UtilFormatter.orderDateFormat(o.getTimestamp()));
             ov.setValue("");
             ov.setSum("");
             return ov;

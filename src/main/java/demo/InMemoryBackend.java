@@ -5,7 +5,7 @@ import demo.trade.domain.ContrarianTradingStrategySimulator;
 import demo.trade.domain.RecentTradesLog;
 import demo.order.domain.SyncHashMapOrderBook;
 import demo.trade.domain.LatestTradesContainer;
-import demo.order.parser.UtilParser;
+import demo.shared.parser.UtilParser;
 import demo.order.service.BookSynchronizer;
 import demo.order.service.RestOrderBookSnapshotSource;
 import demo.order.service.websocket.BitsoWebsocketListener;

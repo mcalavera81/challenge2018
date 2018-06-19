@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 
 import static demo.TestUtils.randPrice;
-import static demo.order.parser.TestOrderUtils.*;
+import static demo.order.parser.TestParserOrderUtils.*;
 import static demo.order.service.websocket.DiffOrder.OrderType.BUY;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 import static org.junit.Assert.assertEquals;

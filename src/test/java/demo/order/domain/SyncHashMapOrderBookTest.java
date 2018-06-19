@@ -1,7 +1,7 @@
 package demo.order.domain;
 
-import demo.order.parser.TestOrderUtils;
-import demo.order.parser.UtilParser;
+import demo.order.parser.TestParserOrderUtils;
+import demo.shared.formatter.UtilFormatter;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
 import org.hamcrest.Matchers;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static demo.TestUtils.*;
 import static demo.order.parser.OrderBookSnaphsotParser.parseOrderBook;
-import static demo.order.parser.TestOrderUtils.*;
+import static demo.order.parser.TestParserOrderUtils.*;
 import static demo.order.service.websocket.DiffOrder.OrderType.BUY;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 import static org.hamcrest.Matchers.contains;
@@ -187,10 +187,10 @@ public class SyncHashMapOrderBookTest {
             .toJavaList();
 
 
-        return parseOrderBook(TestOrderUtils
+        return parseOrderBook(TestParserOrderUtils
             .book(
                 sequence,
-                UtilParser.orderDateFormat(now()),
+                UtilFormatter.orderDateFormat(now()),
                 Option.of(bids),
                 Option.of(asks)
             )).get();

@@ -23,8 +23,8 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import java.util.Arrays;
 
-import static demo.order.parser.TestOrderUtils.randAsk;
-import static demo.order.parser.TestOrderUtils.randBid;
+import static demo.order.parser.TestParserOrderUtils.randAsk;
+import static demo.order.parser.TestParserOrderUtils.randBid;
 import static demo.trade.parser.TestTradeUtils.randTrades;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;

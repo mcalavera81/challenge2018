@@ -7,6 +7,7 @@ import demo.order.service.websocket.DiffOrder;
 import demo.order.service.websocket.DiffOrder.OrderStatus;
 import demo.order.service.websocket.DiffOrder.OrderType;
 import demo.order.service.websocket.DiffOrdersBatch;
+import demo.shared.parser.TestParserUtils;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Option;
@@ -16,18 +17,16 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
-import java.util.function.Supplier;
 
 import static demo.TestUtils.*;
 import static demo.order.parser.DiffOrderParser.DiffOrderField.*;
 import static demo.order.parser.DiffOrdersBatchParser.DIFF_ORDERS;
-import static demo.order.parser.UtilParser.BitsoBook.BTC_MXN;
-import static demo.order.parser.UtilParser.RestResponseField.PAYLOAD;
-import static demo.order.parser.UtilParser.RestResponseField.SUCCESS;
+import static demo.shared.parser.UtilParser.BitsoBook.BTC_MXN;
+import static demo.shared.parser.UtilParser.RestResponseField.PAYLOAD;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 
 
-public class TestOrderUtils {
+public class TestParserOrderUtils {
 
     private static final Random rand = new Random();
     private static final int STR_LENGTH = 10;
@@ -156,7 +155,7 @@ public class TestOrderUtils {
                             Option<Collection> asks){
 
 
-        return responseWithPayload(()->{
+        return TestParserUtils.responseWithPayload(()->{
             JSONObject book =new JSONObject()
                     .put(OrderBookSnaphsotParser.OrderBookField.BOOK_SEQUENCE.id(), sequence)
                     .put(OrderBookSnaphsotParser.OrderBookField.UPDATED_AT.id(), timestamp);
@@ -173,12 +172,6 @@ public class TestOrderUtils {
                 put("price", price==null?null:Double.toString(price)).
                 put("amount",amount==null?null:Double.toString(amount)).
                 put("oid",oid);
-    }
-
-    private static JSONObject responseWithPayload(Supplier<Object> payload){
-        return new JSONObject().
-                put(SUCCESS.id(),true).
-                put(PAYLOAD.id(),payload.get());
     }
 
     public static OrderData randOrderData(){

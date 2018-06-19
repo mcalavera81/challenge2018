@@ -17,8 +17,8 @@ import java.util.List;
 import static demo.order.parser.DiffOrdersBatchParser.DiffOrdersBatchField.CHANNEL;
 import static demo.order.parser.DiffOrdersBatchParser.isDiffOrderBatch;
 import static demo.order.parser.DiffOrdersBatchParser.parseBatch;
-import static demo.order.parser.TestOrderUtils.jsonDiffOrder;
-import static demo.order.parser.TestOrderUtils.randOrderId;
+import static demo.order.parser.TestParserOrderUtils.jsonDiffOrder;
+import static demo.order.parser.TestParserOrderUtils.randOrderId;
 import static demo.order.service.websocket.DiffOrder.OrderType.BUY;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 import static junit.framework.TestCase.assertEquals;
@@ -31,7 +31,7 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void empty_sequence(){
-        JSONObject json = TestOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST), Option.none());
+        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST), Option.none());
         Try<DiffOrdersBatch> updates = parseBatch(json);
         assertTrue(updates.isFailure());
         assertThat(updates.getCause().toString(), containsString("JSONObject[\"sequence\"] not found"));
@@ -39,7 +39,7 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void empty_payload(){
-        JSONObject json = TestOrderUtils.orderBatch(Option.none(),
+        JSONObject json = TestParserOrderUtils.orderBatch(Option.none(),
             Option.of(TestUtils.randSeq()));
         Try<DiffOrdersBatch> updates = parseBatch(json);
         assertTrue(updates.isFailure());
@@ -49,7 +49,7 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void wrong_type(){
-        JSONObject json = TestOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST),
+        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST),
             Option.of(TestUtils.randSeq()));
         json.put(CHANNEL.id(),"Wrong");
 
@@ -96,7 +96,7 @@ public class DiffOrdersBatchParserTest {
 
         List<JSONObject> orders = Arrays.asList(o1._1,o2._1);
 
-        JSONObject json = TestOrderUtils.orderBatch(Option.of(orders),
+        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(orders),
             Option.of(seqId));
         // ---------------- WHEN ---------------
 

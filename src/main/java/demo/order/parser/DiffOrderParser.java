@@ -4,6 +4,7 @@ import demo.order.domain.OrderData;
 import demo.order.service.websocket.DiffOrder;
 import demo.order.service.websocket.DiffOrder.OrderStatus;
 import demo.order.service.websocket.DiffOrder.OrderType;
+import demo.shared.parser.UtilParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static demo.order.parser.DiffOrderParser.DiffOrderField.*;
-import static demo.order.parser.UtilParser.*;
+import static demo.shared.parser.UtilParser.*;
 
 public class DiffOrderParser {
 

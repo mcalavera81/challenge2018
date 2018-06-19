@@ -2,7 +2,7 @@ package demo.trade.parser;
 
 import demo.TestUtils;
 import demo.order.parser.OrderBookSnaphsotParser.ResponseServerException;
-import demo.order.parser.UtilParser.ParserException;
+import demo.shared.parser.UtilParser.ParserException;
 import demo.trade.domain.TradesBatch;
 import demo.trade.parser.TradeParser.TradeParserException;
 import io.vavr.control.Try;

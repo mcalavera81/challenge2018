@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static demo.order.parser.TestOrderUtils.orderBatch;
+import static demo.order.parser.TestParserOrderUtils.orderBatch;
 import static demo.order.service.websocket.DiffOrder.OrderType.BUY;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 import static junit.framework.TestCase.assertTrue;

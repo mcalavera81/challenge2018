@@ -3,6 +3,7 @@ package demo.order.parser;
 
 import demo.order.service.websocket.DiffOrder;
 import demo.order.service.websocket.DiffOrdersBatch;
+import demo.shared.parser.UtilParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 import static demo.order.parser.DiffOrdersBatchParser.DiffOrdersBatchField.*;
-import static demo.order.parser.UtilParser.getLong;
-import static demo.order.parser.UtilParser.getValidation;
+import static demo.shared.parser.UtilParser.getLong;
+import static demo.shared.parser.UtilParser.getValidation;
 
 
 @Slf4j
@@ -46,7 +47,7 @@ public class DiffOrdersBatchParser {
             if(DIFF_ORDERS.equals(messageType)){
                 JSONArray payload = o.getJSONArray(PAYLOAD.id());
                 Validation<DiffOrderParserException, DiffOrdersBatch> diffOrdersUpdates =
-                        getValidation(getLong(o, UPDATE_SEQUENCE.id()))
+                        getValidation(getLong(o, UPDATE_SEQUENCE))
                         .combine(getDiffOrderEntries(payload))
                         .ap(DiffOrdersBatch::new)
                         .mapError(error -> DiffOrderParserException.build(error.asJava()));

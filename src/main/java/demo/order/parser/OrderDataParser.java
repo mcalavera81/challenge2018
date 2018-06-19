@@ -1,6 +1,7 @@
 package demo.order.parser;
 
 import demo.order.domain.OrderData;
+import demo.shared.parser.UtilParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import org.json.JSONObject;
@@ -8,7 +9,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import static demo.order.parser.OrderDataParser.OrderField.*;
-import static demo.order.parser.UtilParser.*;
+import static demo.shared.parser.UtilParser.*;
 
 public class OrderDataParser {
 
@@ -30,8 +31,8 @@ public class OrderDataParser {
 
         Validation<OrderDataParserException, OrderData> orderEntries =
                 getValidation(getBigDecimal(json, PRICE)).
-                        combine(getValidation(getBigDecimal(json, AMOUNT.id()))).
-                        combine(getValidation(getString(json,ID.id())))
+                        combine(getValidation(getBigDecimal(json, AMOUNT))).
+                        combine(getValidation(getString(json,ID)))
                         .ap((price, amount, id) ->
                                 OrderData.builder().id(id).price(price).amount(amount).build())
                         .mapError(error-> OrderDataParserException.build(error.asJava()));

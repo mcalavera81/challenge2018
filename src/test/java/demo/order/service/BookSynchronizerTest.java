@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static demo.TestUtils.*;
-import static demo.order.parser.TestOrderUtils.*;
-import static demo.order.parser.UtilParser.orderDateFormat;
+import static demo.order.parser.TestParserOrderUtils.*;
+import static demo.shared.formatter.UtilFormatter.orderDateFormat;
 import static demo.order.service.websocket.DiffOrder.OrderType.BUY;
 import static demo.order.service.websocket.DiffOrder.OrderType.SELL;
 import static org.hamcrest.MatcherAssert.assertThat;

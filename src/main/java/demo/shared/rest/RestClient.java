@@ -1,6 +1,6 @@
 package demo.shared.rest;
 
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;

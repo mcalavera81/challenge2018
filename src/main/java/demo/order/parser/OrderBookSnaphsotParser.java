@@ -2,6 +2,7 @@ package demo.order.parser;
 
 import demo.order.domain.OrderBookSnapshot;
 import demo.order.domain.OrderData;
+import demo.shared.parser.UtilParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import static demo.order.parser.OrderBookSnaphsotParser.ResponseServerException.ResponseServerErrorField.CODE;
 import static demo.order.parser.OrderBookSnaphsotParser.ResponseServerException.ResponseServerErrorField.MESSAGE;
-import static demo.order.parser.UtilParser.*;
+import static demo.shared.parser.UtilParser.*;
 
 @Slf4j
 public class OrderBookSnaphsotParser {

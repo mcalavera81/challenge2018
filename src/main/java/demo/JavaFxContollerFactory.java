@@ -9,7 +9,7 @@ import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import static demo.order.parser.UtilParser.getStackTrace;
+import static demo.shared.parser.UtilParser.getStackTrace;
 
 @Slf4j
 class JavaFxContollerFactory implements Callback<Class<?>, Object> {

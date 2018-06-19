@@ -3,7 +3,8 @@ package demo.order.parser;
 import demo.TestUtils;
 import demo.order.domain.OrderBookSnapshot;
 import demo.order.parser.OrderBookSnaphsotParser.ResponseServerException;
-import demo.order.parser.UtilParser.ParserException;
+import demo.shared.parser.UtilParser;
+import demo.shared.parser.UtilParser.ParserException;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.val;
@@ -19,7 +20,7 @@ import java.util.List;
 import static demo.Constants.MXN_ERROR;
 import static demo.Constants.SATOSHI_ERROR;
 import static demo.TestUtils.randSeq;
-import static demo.order.parser.TestOrderUtils.order;
+import static demo.order.parser.TestParserOrderUtils.order;
 import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -75,7 +76,7 @@ public class OrderBookSnaphsotParserTest {
     @Test
     public void test_build_OrderEntry__no_bids_no_asks_ok(){
 
-        JSONObject jsonObject = TestOrderUtils.book(randSeq(), timestamp, Option.of(Collections.EMPTY_LIST),Option.of(Collections.EMPTY_LIST));
+        JSONObject jsonObject = TestParserOrderUtils.book(randSeq(), timestamp, Option.of(Collections.EMPTY_LIST),Option.of(Collections.EMPTY_LIST));
         Try<OrderBookSnapshot> ob = OrderBookSnapshot.build(jsonObject);
         assertTrue(ob.isSuccess());
         assertThat(ob.get().getAsks(), emptyArray());
@@ -88,7 +89,7 @@ public class OrderBookSnaphsotParserTest {
 
         List<JSONObject> bids = Arrays.asList(order(153663.00,0.00008714,null));
 
-        JSONObject json = TestOrderUtils.book(randSeq(),timestamp , Option.of(bids), Option.of(Collections.EMPTY_LIST));
+        JSONObject json = TestParserOrderUtils.book(randSeq(),timestamp , Option.of(bids), Option.of(Collections.EMPTY_LIST));
 
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertTrue(build.isFailure());
@@ -102,7 +103,7 @@ public class OrderBookSnaphsotParserTest {
 
         List<JSONObject> bids = Arrays.asList(order(153663.00,null,"1ugNZMSlhr6MgHhq"));
 
-        JSONObject json = TestOrderUtils.book(randSeq(),timestamp , Option.of(bids),Option.of(Collections.EMPTY_LIST));
+        JSONObject json = TestParserOrderUtils.book(randSeq(),timestamp , Option.of(bids),Option.of(Collections.EMPTY_LIST));
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertTrue(build.isFailure());
         assertThat(build.getCause().toString(), containsString("JSONObject[\"amount\"] not found"));
@@ -114,7 +115,7 @@ public class OrderBookSnaphsotParserTest {
 
         List<JSONObject> bids = Arrays.asList(order(null,0.00008714,"1ugNZMSlhr6MgHhq"));
 
-        JSONObject json = TestOrderUtils.book(randSeq(), timestamp, Option.of(bids), Option.of(Collections.EMPTY_LIST));
+        JSONObject json = TestParserOrderUtils.book(randSeq(), timestamp, Option.of(bids), Option.of(Collections.EMPTY_LIST));
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertTrue(build.isFailure());
         assertThat(build.getCause().toString(), containsString("JSONObject[\"price\"] not found"));
@@ -124,7 +125,7 @@ public class OrderBookSnaphsotParserTest {
     @Test
     public void test_build_OrderEntry__one_bid_missing_bids(){
 
-        JSONObject json = TestOrderUtils.book(randSeq(),timestamp , Option.none(), Option.of(Collections.EMPTY_LIST));
+        JSONObject json = TestParserOrderUtils.book(randSeq(),timestamp , Option.none(), Option.of(Collections.EMPTY_LIST));
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertTrue(build.isFailure());
         assertThat(build.getCause().toString(), containsString("JSONObject[\"bids\"] not found"));
@@ -133,7 +134,7 @@ public class OrderBookSnaphsotParserTest {
     @Test
     public void test_build_OrderEntry__one_bid_missing_asks(){
 
-        JSONObject json = TestOrderUtils.book(randSeq(), timestamp, Option.of(Collections
+        JSONObject json = TestParserOrderUtils.book(randSeq(), timestamp, Option.of(Collections
                 .EMPTY_LIST), Option.none());
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertTrue(build.isFailure());
@@ -147,7 +148,7 @@ public class OrderBookSnaphsotParserTest {
         List<JSONObject> bids = Arrays.asList(order(153663.00,0.00008714,"1ugNZMSlhr6MgHhq"));
         List<JSONObject> asks = Arrays.asList(order(153753.00, 0.08061399, "g8fRXBUHlsangvo5"));
 
-        JSONObject json = TestOrderUtils.book(sequence,timestamp, Option.of(bids), Option.of(asks));
+        JSONObject json = TestParserOrderUtils.book(sequence,timestamp, Option.of(bids), Option.of(asks));
 
         Try<OrderBookSnapshot> build = OrderBookSnapshot.build(json);
         assertThat(build.isSuccess(), is(true));

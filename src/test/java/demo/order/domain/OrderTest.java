@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import static demo.TestUtils.now;
-import static demo.order.parser.TestOrderUtils.randOrderData;
+import static demo.order.parser.TestParserOrderUtils.randOrderData;
 
 public class OrderTest {
 

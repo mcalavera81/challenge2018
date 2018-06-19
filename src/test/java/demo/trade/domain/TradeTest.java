@@ -1,6 +1,6 @@
 package demo.trade.domain;
 
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import lombok.val;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

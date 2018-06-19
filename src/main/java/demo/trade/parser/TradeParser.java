@@ -1,6 +1,6 @@
 package demo.trade.parser;
 
-import demo.order.parser.UtilParser;
+import demo.shared.parser.UtilParser;
 import demo.order.parser.WithId;
 import demo.trade.domain.Trade;
 import demo.trade.domain.Trade.TradeType;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static demo.order.parser.UtilParser.*;
+import static demo.shared.parser.UtilParser.*;
 import static demo.trade.parser.TradeParser.TradeField.*;
 
 

@@ -2,7 +2,7 @@ package demo.order.parser;
 
 import demo.order.domain.OrderData;
 import demo.order.parser.OrderDataParser.OrderDataParserException;
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import io.vavr.control.Try;
 import org.json.JSONObject;
 import org.junit.Test;

@@ -9,8 +9,8 @@ import org.asynchttpclient.ws.WebSocketListener;
 import org.asynchttpclient.ws.WebSocketUpgradeHandler;
 import org.json.JSONObject;
 
-import static demo.order.parser.UtilParser.BitsoBook.BTC_MXN;
-import static demo.order.parser.UtilParser.getStackTrace;
+import static demo.shared.parser.UtilParser.BitsoBook.BTC_MXN;
+import static demo.shared.parser.UtilParser.getStackTrace;
 
 @Slf4j
 public class DiffOrderStreamConsumer implements ThreadRunner {

@@ -1,7 +1,7 @@
 package demo;
 
 import demo.order.domain.OrderBookSnapshot;
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import demo.order.service.RestOrderBookSnapshotSource;
 import demo.shared.config.AppConfiguration;
 import io.vavr.control.Try;

@@ -1,7 +1,7 @@
 package demo.order.service;
 
 import demo.order.domain.OrderBookSnapshot;
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import demo.shared.rest.RestClient;
 import demo.shared.rest.SimpleRateLimiter;
 import io.vavr.control.Try;

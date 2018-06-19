@@ -1,6 +1,6 @@
 package demo.trade.service;
 
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import demo.shared.rest.RestClient;
 import demo.shared.rest.SimpleRateLimiter;
 import demo.trade.domain.TradesBatch;

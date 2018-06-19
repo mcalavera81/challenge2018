@@ -1,5 +1,7 @@
-package demo.order.parser;
+package demo.shared.parser;
 
+import demo.order.parser.WithId;
+import demo.shared.formatter.UtilFormatter;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +14,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -29,7 +30,7 @@ public class UtilParser {
         return extractData(json, ()->new BigDecimal(json.getString(key)));
     }
 
-    static Try<Integer> getInt(JSONObject json, WithId key){
+    public static Try<Integer> getInt(JSONObject json, WithId key){
         return getInt(json, key.id());
     }
 
@@ -46,7 +47,7 @@ public class UtilParser {
         return extractData(json, ()->json.getLong(key));
     }
 
-    static Try<ZonedDateTime> getDateFromMillis(JSONObject json, WithId key){
+    public static Try<ZonedDateTime> getDateFromMillis(JSONObject json, WithId key){
         return getDateFromMillis(json, key.id());
     }
 
@@ -71,7 +72,7 @@ public class UtilParser {
         return extractData(json, ()->json.getString(key));
     }
 
-    static Try<JSONArray> getJsonArray(JSONObject json, WithId key){
+    public static Try<JSONArray> getJsonArray(JSONObject json, WithId key){
         return getJsonArray(json, key.id());
     }
 
@@ -89,33 +90,12 @@ public class UtilParser {
         }
     }
 
-    private static final DateTimeFormatter dateTimeFormatterZOffset = DateTimeFormatter
-        .ofPattern("yyyy-MM-dd'T'HH:mm:ssZZZ");
-    private static final DateTimeFormatter dateTimeFormatterXOffset = DateTimeFormatter
-        .ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-
-    public static String orderDateFormat(ZonedDateTime zdt){
-        return  formatDate(zdt, dateTimeFormatterZOffset);
-    }
-
-    public static String tradeDateFormat(ZonedDateTime zdt){
-        return  formatDate(zdt, dateTimeFormatterXOffset);
-
-    }
-
-    private static String formatDate(ZonedDateTime zdt, DateTimeFormatter formatter){
-        return Try.of(() ->  zdt.format(formatter))
-            .onFailure($->
-                log.error("Error formatting ({}) date: {}", formatter, zdt)
-            ).get();
-    }
-
     public static ZonedDateTime parseDate(String date){
         try {
-            return ZonedDateTime.parse(date, dateTimeFormatterXOffset)
+            return ZonedDateTime.parse(date, UtilFormatter.dateTimeFormatterXOffset)
                 .withZoneSameInstant(ZoneOffset.UTC);
         }catch (Exception e){
-            return ZonedDateTime.parse(date, dateTimeFormatterZOffset)
+            return ZonedDateTime.parse(date, UtilFormatter.dateTimeFormatterZOffset)
                 .withZoneSameInstant(ZoneOffset.UTC);
         }
     }
@@ -150,7 +130,7 @@ public class UtilParser {
         return  s.toString();
     }
 
-    enum RestResponseField implements WithId{
+    public enum RestResponseField implements WithId{
         SUCCESS("success"),
         PAYLOAD("payload"),
         ERROR("error");
@@ -187,9 +167,6 @@ public class UtilParser {
     }
 
     public static class ParserException extends Exception{
-        ParserException(String message){
-            super(message);
-        }
 
         public ParserException(Throwable cause) {
             super(cause);

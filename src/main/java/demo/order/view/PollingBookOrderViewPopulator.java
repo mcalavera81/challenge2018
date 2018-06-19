@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
-import static demo.order.parser.UtilParser.getStackTrace;
+import static demo.shared.parser.UtilParser.getStackTrace;
 import static io.vavr.collection.Stream.ofAll;
 
 @Slf4j

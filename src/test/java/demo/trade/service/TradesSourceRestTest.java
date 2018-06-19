@@ -1,6 +1,6 @@
 package demo.trade.service;
 
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import demo.shared.config.AppConfiguration;
 import demo.trade.domain.Trade;
 import demo.trade.domain.TradesBatch;

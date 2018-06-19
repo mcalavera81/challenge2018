@@ -1,6 +1,6 @@
 package demo.trade.view;
 
-import demo.order.parser.UtilParser;
+import demo.shared.formatter.UtilFormatter;
 import demo.trade.domain.Trade;
 import demo.trade.domain.Trade.TradeSource;
 import javafx.beans.property.SimpleStringProperty;
@@ -54,7 +54,7 @@ public class TradeTableRow {
         TradeTableRow row = new TradeTableRow();
         row.setId(trade.getId().toString());
         row.setBook(trade.getBook());
-        row.setTimestamp(UtilParser.orderDateFormat(trade.getTimestamp()));
+        row.setTimestamp(UtilFormatter.orderDateFormat(trade.getTimestamp()));
         row.setAmount(trade.getAmount().toString());
         row.setPrice(trade.getPrice().toString());
         row.setType(trade.getType().getName());

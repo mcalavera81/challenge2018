@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static demo.order.parser.TestOrderUtils.jsonDiffOrder;
+import static demo.order.parser.TestParserOrderUtils.jsonDiffOrder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import static demo.TestUtils.randAmount;
 import static demo.TestUtils.randPrice;
-import static demo.order.parser.TestOrderUtils.randOrderId;
+import static demo.order.parser.TestParserOrderUtils.randOrderId;
 
 public class OrderDataTest {
 

@@ -1,6 +1,6 @@
 package demo.trade.parser;
 
-import demo.order.parser.UtilParser.BitsoBook;
+import demo.shared.parser.UtilParser.BitsoBook;
 import demo.trade.domain.Trade;
 import demo.trade.domain.Trade.TradeSource;
 import demo.trade.domain.Trade.TradeType;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 import static demo.TestUtils.*;
-import static demo.order.parser.UtilParser.tradeDateFormat;
+import static demo.shared.formatter.UtilFormatter.tradeDateFormat;
 import static demo.trade.parser.TradeParser.TradeField.*;
 
 public class TestTradeUtils {

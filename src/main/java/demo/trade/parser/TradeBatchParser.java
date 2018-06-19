@@ -1,6 +1,6 @@
 package demo.trade.parser;
 
-import demo.order.parser.UtilParser;
+import demo.shared.parser.UtilParser;
 import demo.trade.domain.Trade;
 import demo.trade.domain.TradesBatch;
 import io.vavr.control.Try;
