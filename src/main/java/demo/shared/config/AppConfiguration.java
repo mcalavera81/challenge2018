@@ -27,6 +27,8 @@ public class AppConfiguration {
             .css(getString(c, "view.css"))
             .maxOrders(getInt(c, "view.maxOrders"))
             .maxTrades(getInt(c, "view.maxTrades"))
+            .tradesPollIntervalMs(getInt(c, "view.trades.poll.interval.ms"))
+            .ordersPollIntervalMs(getInt(c, "view.orders.poll.interval.ms"))
             .build();
 
         val bc = BackendConfig.builder()
@@ -51,9 +53,13 @@ public class AppConfiguration {
         @NonNull
         private final String css;
         @NonNull
-        private Integer maxOrders;
+        private final Integer maxOrders;
         @NonNull
-        private Integer maxTrades;
+        private final Integer maxTrades;
+        @NonNull
+        private final Integer tradesPollIntervalMs;
+        @NonNull
+        private final Integer ordersPollIntervalMs;
     }
 
     @Builder

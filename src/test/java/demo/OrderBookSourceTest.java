@@ -1,9 +1,9 @@
 package demo;
 
-import demo.order.domain.OrderBookSnapshot;
-import demo.shared.parser.UtilParser.BitsoBook;
-import demo.order.service.RestOrderBookSnapshotSource;
+import demo.order.source.poller.dto.OrderBookSnapshot;
+import demo.order.source.poller.client.RestOrderBookSnapshotSource;
 import demo.shared.config.AppConfiguration;
+import demo.shared.parser.UtilParser.BitsoBook;
 import io.vavr.control.Try;
 import lombok.val;
 import org.asynchttpclient.AsyncHttpClient;

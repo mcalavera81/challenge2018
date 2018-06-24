@@ -8,8 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -55,12 +53,10 @@ public class TestUtils {
         return floatRange(MIN_AMOUNT, MAX_AMOUNT);
     }
 
+
     public static Long randSeq(){
         return rand.nextLong();
     }
-
-    public static ZonedDateTime now(){
-        return ZonedDateTime.now(ZoneOffset.UTC);}
 
     @SuppressWarnings("unchecked")
     public static <T> CompletableFuture<T> withDefault(CompletableFuture<T> cf,

@@ -3,7 +3,7 @@ package demo.order.view;
 import javafx.beans.property.ListProperty;
 
 public interface OrderViewPopulator {
-    ListProperty<OrderView.BidView> getBidsProp();
+    ListProperty<OrderTableRow> getBidsProp();
 
-    ListProperty<OrderView.AskView> getAsksProp();
+    ListProperty<OrderTableRow> getAsksProp();
 }

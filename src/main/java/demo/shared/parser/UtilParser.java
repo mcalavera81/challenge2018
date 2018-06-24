@@ -1,6 +1,6 @@
 package demo.shared.parser;
 
-import demo.order.parser.WithId;
+import demo.order.helpers.WithId;
 import demo.shared.formatter.UtilFormatter;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static demo.order.parser.OrderBookSnaphsotParser.ResponseServerException;
+import static demo.order.source.poller.parser.OrderBookSnaphsotParser.ResponseServerException;
 
 @Slf4j
 public class UtilParser {
@@ -107,6 +107,13 @@ public class UtilParser {
 
     public static <T> Try<T> toTry(final Validation<? extends Throwable,T> v) {
         return v.isValid() ? v.toTry() : Try.failure(v.getError());
+    }
+
+    public static ZonedDateTime now(){
+        return ZonedDateTime.now(ZoneOffset.UTC);}
+
+    public static BigDecimal bd(double value){
+        return BigDecimal.valueOf(value);
     }
 
     public enum BitsoBook{

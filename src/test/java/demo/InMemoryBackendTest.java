@@ -1,6 +1,7 @@
 package demo;
 
 
+import demo.app.InMemoryBackend;
 import demo.shared.config.AppConfiguration;
 import lombok.val;
 import org.junit.Assert;

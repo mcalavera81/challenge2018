@@ -1,12 +1,12 @@
 package demo.view;
 
-import demo.Backend;
-import demo.Frontend;
-import demo.FrontendJavaFx;
-import demo.order.domain.OrderBook;
-import demo.trade.domain.RecentTradesLog;
-import demo.order.view.OrderView.OrderViewField;
+import demo.app.Backend;
+import demo.app.Frontend;
+import demo.app.FrontendJavaFx;
+import demo.order.business.state.OrderBook;
+import demo.order.view.OrderTableRow.OrderViewField;
 import demo.shared.config.AppConfiguration;
+import demo.trade.business.state.RecentTradesLog;
 import demo.trade.view.TradeTableRow.TradeViewField;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -22,9 +22,10 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.util.Arrays;
+import java.util.Collections;
 
-import static demo.order.parser.TestParserOrderUtils.randAsk;
-import static demo.order.parser.TestParserOrderUtils.randBid;
+import static demo.order.source.TestParserOrderUtils.randAsk;
+import static demo.order.source.TestParserOrderUtils.randBid;
 import static demo.trade.parser.TestTradeUtils.randTrades;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -63,7 +64,7 @@ public class UiTest extends ApplicationTest {
         //Mockito.when(backend.getRecentTradesLog()).thenReturn(tradesLog);
 
         Mockito.when(backend.getOrderBook().getAsks(any()))
-            .thenReturn(Arrays.asList(randAsk()));
+            .thenReturn(Collections.singletonList(randAsk()));
         Mockito.when(backend.getOrderBook().getBids(any()))
             .thenReturn(
                 Arrays.asList(
@@ -83,12 +84,6 @@ public class UiTest extends ApplicationTest {
 
         Thread.sleep(1000);
 
-    }
-
-    @AfterClass
-    public static void afterClass() throws Exception {
-        FxToolkit.hideStage();
-        FxToolkit.cleanupStages();
     }
 
     @Test
@@ -129,6 +124,12 @@ public class UiTest extends ApplicationTest {
         assertTradesTableColumnNames(tradesTable.getColumns());
 
 
+    }
+
+    @AfterClass
+    public static void afterClass() throws Exception {
+        FxToolkit.hideStage();
+        FxToolkit.cleanupStages();
     }
 
     private <T> void assertTradesTableColumnNames(ObservableList<TableColumn<T,

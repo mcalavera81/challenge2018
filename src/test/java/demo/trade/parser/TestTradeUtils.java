@@ -1,10 +1,11 @@
 package demo.trade.parser;
 
+import demo.shared.parser.UtilParser;
 import demo.shared.parser.UtilParser.BitsoBook;
-import demo.trade.domain.Trade;
-import demo.trade.domain.Trade.TradeSource;
-import demo.trade.domain.Trade.TradeType;
-import demo.trade.domain.TradesBatch;
+import demo.trade.business.state.Trade;
+import demo.trade.business.state.Trade.TradeSource;
+import demo.trade.business.state.Trade.TradeType;
+import demo.trade.source.dto.TradesBatch;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.Stream;
@@ -12,48 +13,43 @@ import io.vavr.control.Try;
 import lombok.val;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static demo.TestUtils.*;
+import static demo.TestUtils.randAmount;
+import static demo.TestUtils.randPrice;
 import static demo.shared.formatter.UtilFormatter.tradeDateFormat;
-import static demo.trade.parser.TradeParser.TradeField.*;
+import static demo.trade.source.parser.TradeParser.TradeField.*;
 
 public class TestTradeUtils {
 
     private static final Random rand = new Random();
 
-    public static Trade[] newTrades(int num, int... idx){
-        int startIndex = idx!=null && idx.length==1? idx[0]:0;
 
-        Trade[] trades = Stream
-            .range(startIndex, num+startIndex)
-            .zipWithIndex()
-            .map(tid -> Tuple.of(tid._2, randTrade(tid._1)))
-            .foldLeft(
-                new Trade[num],
-                (array, indexTrade) -> {
-                    array[indexTrade._1]=indexTrade._2;
-                    return array;
-                }
-            );
+    private static Trade randTradeWithPrice(double price) {
 
-        return trades;
+        return Trade.builder()
+            .book(BitsoBook.BTC_MXN.id())
+            .amount(UtilParser.bd(randAmount()))
+            .price(UtilParser.bd(price))
+            .id(randTradeId())
+            .timestamp(UtilParser.now())
+            .type(randType())
+            .build();
 
     }
-
     private static Trade randTrade(long... id){
         long tid = id!=null && id.length==1? id[0]:randTradeId();
 
         return Trade.builder()
             .book(BitsoBook.BTC_MXN.id())
-            .amount(BigDecimal.valueOf(randAmount()))
-            .price(BigDecimal.valueOf(randPrice()))
+            .amount(UtilParser.bd(randAmount()))
+            .price(UtilParser.bd(randPrice()))
             .id(tid)
-            .timestamp(now())
+            .timestamp(UtilParser.now())
             .type(randType())
+            .source(randSource())
             .build();
     }
 
@@ -88,14 +84,27 @@ public class TestTradeUtils {
         return  rand.nextFloat()<0.5?TradeType.BUY:TradeType.SELL;
     }
 
-    public static Try<TradesBatch> randTrades(int size, int maxId){
-        val trades = new Trade[size];
 
-        for (int i = 0, id =maxId; i < trades.length; i++,id--) {
-            trades[i] = randTrade(id);
+    public static Try<TradesBatch> randTradesBatch(int size, int maxId){
+        List<Trade> trades = new ArrayList<>(size);
+        for (int i = 0, id = maxId; i < size; i++,id--) {
+            trades.add(randTrade(id));
         }
 
         return Try.success(new TradesBatch(trades));
+    }
+
+
+    public static List<Trade> randTradesWithPrices(double... prices){
+
+
+        return Stream.ofAll(prices)
+            .foldLeft(
+                new ArrayList<Trade>(),
+                (list, price) -> {
+                    list.add(randTradeWithPrice(price));
+                    return list;
+                });
     }
 
 

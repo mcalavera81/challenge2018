@@ -33,6 +33,7 @@ public class AppConfigurationTest {
                 .css(DUMMY_STRING)
                 .maxOrders(DUMMY_INT)
                 .maxTrades(DUMMY_INT)
+                .tradesPollIntervalMs(DUMMY_INT)
                 .build());
 
 
@@ -42,6 +43,7 @@ public class AppConfigurationTest {
                 .css(null)
                 .maxOrders(DUMMY_INT)
                 .maxTrades(DUMMY_INT)
+                .tradesPollIntervalMs(DUMMY_INT)
                 .build());
 
         Assertions.assertThrows(NullPointerException.class,
@@ -50,6 +52,7 @@ public class AppConfigurationTest {
                 .css(DUMMY_STRING)
                 .maxOrders(null)
                 .maxTrades(DUMMY_INT)
+                .tradesPollIntervalMs(DUMMY_INT)
                 .build());
 
 
@@ -59,7 +62,19 @@ public class AppConfigurationTest {
                 .css(DUMMY_STRING)
                 .maxOrders(DUMMY_INT)
                 .maxTrades(null)
+                .tradesPollIntervalMs(DUMMY_INT)
                 .build());
+
+
+        Assertions.assertThrows(NullPointerException.class,
+            () -> FrontendConfig.builder()
+                .mainFxml(DUMMY_URL)
+                .css(DUMMY_STRING)
+                .maxOrders(DUMMY_INT)
+                .maxTrades(DUMMY_INT)
+                .tradesPollIntervalMs(null)
+                .build());
+
 
 
 
@@ -113,6 +128,7 @@ public class AppConfigurationTest {
                 .tradingAlgorithmUpTicks(DUMMY_INT)
                 .tradingAlgorithmDownTicks(DUMMY_INT)
                 .build());
+
 
         Assertions.assertThrows(NullPointerException.class,
             () -> BackendConfig.builder()
