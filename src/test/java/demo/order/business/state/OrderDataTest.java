@@ -1,13 +1,13 @@
 package demo.order.business.state;
 
 import demo.order.source.poller.dto.OrderData;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.TransformHelpers;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static demo.TestUtils.randAmount;
-import static demo.TestUtils.randPrice;
-import static demo.order.source.TestParserOrderUtils.randOrderId;
+import static demo.TestHelpers.randAmount;
+import static demo.TestHelpers.randPrice;
+import static demo.order.TestOrderHelpers.randOrderId;
 
 public class OrderDataTest {
 
@@ -19,7 +19,7 @@ public class OrderDataTest {
                 OrderData.builder()
                     .id(randOrderId())
                     .amount(null)
-                    .price(UtilParser.bd(randPrice()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .build());
 
 
@@ -27,8 +27,8 @@ public class OrderDataTest {
             () ->
                 OrderData.builder()
                     .id(null)
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .build());
 
 
@@ -37,7 +37,7 @@ public class OrderDataTest {
             () ->
                 OrderData.builder()
                     .id(randOrderId())
-                    .amount(UtilParser.bd(randAmount()))
+                    .amount(TransformHelpers.bd(randAmount()))
                     .price(null)
                     .build());
     }

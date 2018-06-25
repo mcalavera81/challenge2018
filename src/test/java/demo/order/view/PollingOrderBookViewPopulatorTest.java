@@ -1,6 +1,7 @@
 package demo.order.view;
 
 import de.saxsys.mvvmfx.testingutils.jfxrunner.JfxRunner;
+import demo.TestHelpers;
 import demo.order.business.state.SyncHashMapOrderBook;
 import demo.order.source.stream.dto.DiffOrder.OrderType;
 import javafx.beans.property.ListProperty;
@@ -10,8 +11,8 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 
-import static demo.TestUtils.randPrice;
-import static demo.order.source.TestParserOrderUtils.*;
+import static demo.TestHelpers.randPrice;
+import static demo.order.TestOrderHelpers.*;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.BUY;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.SELL;
 import static org.junit.Assert.assertEquals;
@@ -62,9 +63,9 @@ public class PollingOrderBookViewPopulatorTest {
         val price = randPrice();
         val lowPrice = price-1;
         val highPrice = price+1;
-        newBookOrder(id("1"), SELL, price);
-        newBookOrder(id("2"), BUY, price);
-        newBookOrder(id("3"), BUY, highPrice);
+        newBookOrder(TestHelpers.id("1"), SELL, price);
+        newBookOrder(TestHelpers.id("2"), BUY, price);
+        newBookOrder(TestHelpers.id("3"), BUY, highPrice);
 
 
         viewPopulator = new PollingOrderBookViewPopulator(
@@ -78,18 +79,18 @@ public class PollingOrderBookViewPopulatorTest {
         //------------------WHEN -----------------
         viewPopulator.start();
 
-        Thread.sleep(2000);
+        Thread.sleep(pollingIntervalMs*2);
         //------------------THEN -----------------
         assertAskIds("1");
         assertBidIds("3,2".split(","));
         //------------------GIVEN -----------------
-        newBookOrder(id("4"), SELL, highPrice);
-        newBookOrder(id("5"), SELL, lowPrice);
-        cancelOrder(BUY,id("2"));
+        newBookOrder(TestHelpers.id("4"), SELL, highPrice);
+        newBookOrder(TestHelpers.id("5"), SELL, lowPrice);
+        cancelOrder(BUY, TestHelpers.id("2"));
 
         //------------------WHEN -----------------
 
-        Thread.sleep(2000);
+        Thread.sleep(pollingIntervalMs*2);
 
         //------------------THEN -----------------
         assertAskIds("5,1,4".split(","));

@@ -1,7 +1,7 @@
 package demo.trade.source.poller;
 
-import demo.shared.config.AppConfiguration;
-import demo.shared.parser.UtilParser.BitsoBook;
+import demo.app.Constants;
+import demo.app.config.AppConfiguration;
 import demo.trade.business.state.Trade;
 import demo.trade.source.dto.TradesBatch;
 import io.vavr.control.Try;
@@ -24,10 +24,10 @@ public class TradesSourceRestTest {
 
     @Before
     public void setUp() {
-        val conf = AppConfiguration.tryBuild();
+        val conf = AppConfiguration.getInstance();
         val bc = conf.getBackendConfig();
         source = new TradesSourceRest(
-            BitsoBook.BTC_MXN,
+            Constants.BitsoBook.BTC_MXN,
             bc.getBitsoRestUri(),
             asyncHttpClient(),
             1,

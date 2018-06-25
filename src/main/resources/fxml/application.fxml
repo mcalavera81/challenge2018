@@ -5,7 +5,7 @@
 <TabPane layoutX="14.0" layoutY="27.0" prefHeight="900" prefWidth="1280"
          tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="demo.shared.MainController">
+         fx:controller="demo.support.MainController">
     <tabs>
         <Tab text="Order Book">
             <content>

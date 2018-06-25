@@ -1,6 +1,6 @@
 package demo.trade.business.algorithm;
 
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.DateTimeHelpers;
 import demo.trade.business.state.Trade;
 import demo.trade.business.state.Trade.TradeType;
 import lombok.NonNull;
@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static demo.shared.parser.UtilParser.BitsoBook.BTC_MXN;
+import static demo.app.Constants.BitsoBook.BTC_MXN;
 
-public class ContrarianTradingStrategy implements TradingAlgorithm {
+public class ContrarianTradingStrategy implements TradingStrategy {
 
     private Integer upTicksThreshold;
     private Integer downTicksThreshold;
@@ -85,7 +85,7 @@ public class ContrarianTradingStrategy implements TradingAlgorithm {
     private void addSimulatedTrade(List<Trade> history, int i, Trade t, TradeType type) {
         final Trade sell = tradeTemplate
             .price(t.getPrice())
-            .timestamp(UtilParser.now())
+            .timestamp(DateTimeHelpers.now())
             .id(--runningId)
             .type(type)
             .build();

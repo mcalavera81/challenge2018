@@ -1,8 +1,8 @@
 package demo.trade.business.state;
 
 import demo.trade.business.algorithm.NoTradingStrategy;
-import demo.trade.business.algorithm.TradingAlgorithm;
-import demo.trade.parser.TestTradeUtils;
+import demo.trade.business.algorithm.TradingStrategy;
+import demo.trade.TestTradeHelpers;
 import demo.trade.source.dto.TradesBatch;
 import demo.trade.source.poller.TradesSource;
 import io.vavr.control.Try;
@@ -28,45 +28,55 @@ public class LatestTradesContainerTest {
     private static int CACHE_SIZE = 8;
 
     private final Integer DUMMY_INT=0;
+    private TradesSource tradesSource;
+    private TradingStrategy algorithm;
 
 
     @Before
     public void init(){
 
-
+        tradesSource = mock(TradesSource.class);
+        algorithm = mock(TradingStrategy.class);
     }
 
 
     @Test
-    public void test_constructor(){
+    public void test_constructor_trades_source_null() {
 
-        val algorithm = mock(TradingAlgorithm.class);
-        val tradesSource = mock(TradesSource.class);
         Assertions.assertThrows(
             NullPointerException.class,
-            ()->new LatestTradesContainer(
+            () -> new LatestTradesContainer(
                 null,
                 DUMMY_INT,
                 DUMMY_INT,
                 algorithm));
+    }
+
+    @Test
+    public void test_constructor_cache_size_null() {
 
         Assertions.assertThrows(
             NullPointerException.class,
-            ()->new LatestTradesContainer(
+            () -> new LatestTradesContainer(
                 tradesSource,
                 null,
                 DUMMY_INT,
                 algorithm));
+    }
+
+    @Test
+    public void test_constructor_rest_default_limit_null() {
 
         Assertions.assertThrows(
             NullPointerException.class,
-            ()->new LatestTradesContainer(
+            () -> new LatestTradesContainer(
                 tradesSource,
                 DUMMY_INT,
                 null,
                 algorithm));
+    }
 
-
+    public void test_constructor_rest_trading_algorithm_null() {
         Assertions.assertThrows(
             NullPointerException.class,
             ()->new LatestTradesContainer(
@@ -84,21 +94,21 @@ public class LatestTradesContainerTest {
 
         // ------------------ GIVEN ------------------------
         final int restLimit = 5;
-        final int query = 3;
+        final int maxTrades = 3;
         final int batch_maxId = 5;
 
-        LatestTradesContainer simulator = prepareTradesContainer(
+        LatestTradesContainer tradesContainer = prepareTradesContainer(
             restLimit,
             Collections.singletonList(batch_maxId));
 
-        assertEquals(0, simulator.size());
+        assertEquals(0, tradesContainer.size());
         // ------------------ WHEN ------------------------
-        val recentTrades = simulator.getRecentTrades(query);
+        val recentTrades = tradesContainer.getRecentTrades(maxTrades);
 
 
         // ------------------ THEN ------------------------
-        assertEquals(query, recentTrades.size());
-        assertEquals(restLimit, simulator.size());
+        assertEquals(maxTrades, recentTrades.size());
+        assertEquals(restLimit, tradesContainer.size());
 
         assertEquals(batch_maxId, recentTrades.get(0).getId().intValue());
         assertEquals(batch_maxId - 2, recentTrades.get(2).getId().intValue());
@@ -167,10 +177,7 @@ public class LatestTradesContainerTest {
     public void test_load_second_batch_with_overlap() {
 
         // ------------------ GIVEN ------------------------
-        final int restLimit = 5;
-        final int query = 3;
-        final int maxId_batch1 = 5;
-        final int maxId_batch2 = 8;
+        final int restLimit = 5, maxTrades = 3, maxId_batch1 = 5, maxId_batch2 = 8;
 
 
         LatestTradesContainer simulator = prepareTradesContainer(
@@ -178,12 +185,12 @@ public class LatestTradesContainerTest {
             Arrays.asList(maxId_batch1, maxId_batch2));
 
         // ------------------ WHEN ------------------------
-        simulator.getRecentTrades(query);
-        val recentTrades = simulator.getRecentTrades(query);
+        simulator.getRecentTrades(maxTrades);
+        val recentTrades = simulator.getRecentTrades(maxTrades);
 
 
         // ------------------ THEN ------------------------
-        assertEquals(query, recentTrades.size());
+        assertEquals(maxTrades, recentTrades.size());
         assertEquals(CACHE_SIZE, simulator.size());
 
         assertEquals(maxId_batch2, recentTrades.get(0).getId().intValue());
@@ -224,7 +231,7 @@ public class LatestTradesContainerTest {
         public Try<TradesBatch> answer(InvocationOnMock invocation) throws Throwable {
 
             count = (count+1)%maxIds.size();
-            return TestTradeUtils.randTradesBatch(restLimit, maxIds.get(count));
+            return TestTradeHelpers.randTradesBatch(restLimit, maxIds.get(count));
         }
     }
 

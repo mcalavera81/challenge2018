@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
-@ToString
+//@ToString
 public abstract class Order {
 
 

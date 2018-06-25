@@ -1,8 +1,8 @@
 package demo.trade.source.poller;
 
-import demo.shared.parser.UtilParser.BitsoBook;
-import demo.shared.rest.RestClient;
-import demo.shared.rest.SimpleRateLimiter;
+import demo.app.Constants.BitsoBook;
+import demo.support.rest.RestClient;
+import demo.support.rest.SimpleRateLimiter;
 import demo.trade.source.dto.TradesBatch;
 import demo.trade.source.parser.TradeBatchParser;
 import io.vavr.control.Try;

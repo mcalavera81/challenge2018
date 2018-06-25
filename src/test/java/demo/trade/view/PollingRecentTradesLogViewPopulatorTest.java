@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import static demo.trade.parser.TestTradeUtils.randTrades;
+import static demo.trade.TestTradeHelpers.randTrades;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.anyInt;
 

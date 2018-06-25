@@ -1,6 +1,6 @@
 package demo.order.source.stream.client;
 
-import demo.shared.service.ThreadRunner;
+import demo.support.thread.ThreadRunner;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;
@@ -9,8 +9,8 @@ import org.asynchttpclient.ws.WebSocketListener;
 import org.asynchttpclient.ws.WebSocketUpgradeHandler;
 import org.json.JSONObject;
 
-import static demo.shared.parser.UtilParser.BitsoBook.BTC_MXN;
-import static demo.shared.parser.UtilParser.getStackTrace;
+import static demo.app.Constants.BitsoBook.BTC_MXN;
+import static demo.support.helpers.TransformHelpers.getStackTrace;
 
 @Slf4j
 public class DiffOrderStreamConsumer implements ThreadRunner {

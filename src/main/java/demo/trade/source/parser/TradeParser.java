@@ -1,7 +1,7 @@
 package demo.trade.source.parser;
 
-import demo.order.helpers.WithId;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.WithId;
+import demo.support.helpers.TransformHelpers;
 import demo.trade.business.state.Trade;
 import demo.trade.business.state.Trade.TradeType;
 import io.vavr.control.Try;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static demo.shared.parser.UtilParser.*;
+import static demo.support.parser.JsonParser.*;
 import static demo.trade.source.parser.TradeParser.TradeField.*;
 
 
@@ -43,12 +43,12 @@ public class TradeParser {
     public static Try<Trade> parse(JSONObject o) {
 
         Validation<TradeParserException, Trade> trade =
-            getValidation(getDateFromString(o, TIMESTAMP))
-                .combine(getValidation(getString(o, BOOK)))
-                .combine(getValidation(getBigDecimal(o, AMOUNT)))
-                .combine(getValidation(getString(o, SIDE).flatMap(TradeType::fromText)))
-                .combine(getValidation(getBigDecimal(o, PRICE)))
-                .combine(getValidation(getLong(o, ID)))
+            TransformHelpers.getValidation(getDateFromString(o, TIMESTAMP))
+                .combine(TransformHelpers.getValidation(getString(o, BOOK)))
+                .combine(TransformHelpers.getValidation(getBigDecimal(o, AMOUNT)))
+                .combine(TransformHelpers.getValidation(getString(o, SIDE).flatMap(TradeType::fromText)))
+                .combine(TransformHelpers.getValidation(getBigDecimal(o, PRICE)))
+                .combine(TransformHelpers.getValidation(getLong(o, ID)))
                 .ap((timestamp, book, amount, side, price, id) ->
                     Trade.builder()
                             .book(book)
@@ -63,7 +63,7 @@ public class TradeParser {
 
 
 
-        return UtilParser.toTry(trade);
+        return TransformHelpers.toTry(trade);
 
     }
 

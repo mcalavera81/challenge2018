@@ -1,8 +1,8 @@
 package demo.order.source.stream;
 
 import demo.app.Constants;
-import demo.TestUtils;
-import demo.order.source.TestParserOrderUtils;
+import demo.TestHelpers;
+import demo.order.TestOrderHelpers;
 import demo.order.source.stream.dto.DiffOrdersBatch;
 import demo.order.source.stream.parser.DiffOrdersBatchParser;
 import io.vavr.control.Option;
@@ -19,8 +19,8 @@ import java.util.List;
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.DiffOrdersBatchField.CHANNEL;
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.isDiffOrderBatch;
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.parseBatch;
-import static demo.order.source.TestParserOrderUtils.jsonDiffOrder;
-import static demo.order.source.TestParserOrderUtils.randOrderId;
+import static demo.order.TestOrderHelpers.jsonDiffOrder;
+import static demo.order.TestOrderHelpers.randOrderId;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.BUY;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.SELL;
 import static junit.framework.TestCase.assertEquals;
@@ -33,7 +33,7 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void empty_sequence(){
-        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST), Option.none());
+        JSONObject json = TestOrderHelpers.orderBatch(Option.of(Collections.EMPTY_LIST), Option.none());
         Try<DiffOrdersBatch> updates = parseBatch(json);
         assertTrue(updates.isFailure());
         assertThat(updates.getCause().toString(), containsString("JSONObject[\"sequence\"] not found"));
@@ -41,8 +41,8 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void empty_payload(){
-        JSONObject json = TestParserOrderUtils.orderBatch(Option.none(),
-            Option.of(TestUtils.randSeq()));
+        JSONObject json = TestOrderHelpers.orderBatch(Option.none(),
+            Option.of(TestHelpers.randSeq()));
         Try<DiffOrdersBatch> updates = parseBatch(json);
         assertTrue(updates.isFailure());
         assertThat(updates.getCause().toString(), containsString("JSONObject[\"payload\"] not found"));
@@ -51,8 +51,8 @@ public class DiffOrdersBatchParserTest {
 
     @Test
     public void wrong_type(){
-        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(Collections.EMPTY_LIST),
-            Option.of(TestUtils.randSeq()));
+        JSONObject json = TestOrderHelpers.orderBatch(Option.of(Collections.EMPTY_LIST),
+            Option.of(TestHelpers.randSeq()));
         json.put(CHANNEL.id(),"Wrong");
 
         Try<DiffOrdersBatch> updates = parseBatch(json);
@@ -64,7 +64,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void diff_order_batch_open(){
         String filename = "order/diff_order_batch_open.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         Try<DiffOrdersBatch> updateTry = parseBatch(json.get());
         assertTrue(updateTry.isSuccess());
@@ -76,7 +76,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void diff_order_batch_cancelled(){
         String filename = "order/diff_order_batch_cancelled.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         Try<DiffOrdersBatch> updateTry = parseBatch(json.get());
         assertTrue(updateTry.isSuccess());
@@ -92,16 +92,15 @@ public class DiffOrdersBatchParserTest {
     public void two_diff_orders(){
 
         // ---------------- GIVEN ---------------
-        Long seqId = TestUtils.randSeq();
+        Long seqId = TestHelpers.randSeq();
         val o1 = jsonDiffOrder(randOrderId(), BUY);
         val o2 = jsonDiffOrder(randOrderId(), SELL);
-        val o3 = jsonDiffOrder(randOrderId(), SELL);
 
 
 
         List<JSONObject> orders = Arrays.asList(o1._1,o2._1);
 
-        JSONObject json = TestParserOrderUtils.orderBatch(Option.of(orders),
+        JSONObject json = TestOrderHelpers.orderBatch(Option.of(orders),
             Option.of(seqId));
         // ---------------- WHEN ---------------
 
@@ -119,7 +118,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void test_diffOrder_message_detector(){
         String filename = "order/diff_order_batch_open.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         assertTrue(isDiffOrderBatch(json.get()));
     }
@@ -128,7 +127,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void test_subscribe_response(){
         String filename = "order/subscribe_response_ok.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         assertFalse(isDiffOrderBatch(json.get()));
 
@@ -138,7 +137,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void test_keep_alive_message(){
         String filename = "order/keep_alive.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         assertFalse(isDiffOrderBatch(json.get()));
 
@@ -148,7 +147,7 @@ public class DiffOrdersBatchParserTest {
     @Test
     public void test_batch_with_malformed_order(){
         String filename = "order/diff_order_batch_failed_order.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         Try<DiffOrdersBatch> batch = parseBatch(json.get());
         assertTrue(batch.isFailure());

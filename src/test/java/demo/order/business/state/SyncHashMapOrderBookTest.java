@@ -1,10 +1,9 @@
 package demo.order.business.state;
 
-import demo.order.source.TestParserOrderUtils;
+import demo.order.TestOrderHelpers;
 import demo.order.source.poller.dto.OrderBookSnapshot;
 import demo.order.source.stream.dto.DiffOrder.OrderType;
-import demo.shared.formatter.UtilFormatter;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.DateTimeHelpers;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
 import org.hamcrest.Matchers;
@@ -16,9 +15,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static demo.TestUtils.randAmount;
-import static demo.TestUtils.randPrice;
-import static demo.order.source.TestParserOrderUtils.*;
+import static demo.TestHelpers.randAmount;
+import static demo.TestHelpers.randPrice;
+import static demo.order.TestOrderHelpers.*;
 import static demo.order.source.poller.parser.OrderBookSnaphsotParser.parseOrderBook;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.BUY;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.SELL;
@@ -210,10 +209,10 @@ public class SyncHashMapOrderBookTest {
             .toJavaList();
 
 
-        return parseOrderBook(TestParserOrderUtils
+        return parseOrderBook(TestOrderHelpers
             .book(
                 sequence,
-                UtilFormatter.orderDateFormat(UtilParser.now()),
+                DateTimeHelpers.orderDateFormat(DateTimeHelpers.now()),
                 Option.of(bids),
                 Option.of(asks)
             )).get();
@@ -227,4 +226,6 @@ public class SyncHashMapOrderBookTest {
         Assert.assertEquals(expectedAsks, book.getAsks().size());
 
     }
+
+
 }

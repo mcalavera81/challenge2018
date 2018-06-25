@@ -1,13 +1,13 @@
 package demo.trade.source.parser;
 
 import demo.trade.business.state.Trade;
-import demo.trade.parser.TestTradeUtils;
+import demo.trade.TestTradeHelpers;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import static demo.TestUtils.loadJson;
+import static demo.TestHelpers.loadJson;
 import static demo.trade.source.parser.TradeParser.TradeField.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -36,7 +36,7 @@ public class TradeParserTest {
     @Test
     public void parse_trade_missing_id(){
 
-        Tuple2<JSONObject, Trade> tuple = TestTradeUtils.jsonTrade();
+        Tuple2<JSONObject, Trade> tuple = TestTradeHelpers.jsonTrade();
         tuple._1().remove(ID.id());
         assertMissingField(tuple._1, ID);
 
@@ -44,7 +44,7 @@ public class TradeParserTest {
     @Test
     public void parse_trade_missing_amount(){
 
-        Tuple2<JSONObject, Trade> tuple = TestTradeUtils.jsonTrade();
+        Tuple2<JSONObject, Trade> tuple = TestTradeHelpers.jsonTrade();
         tuple._1().remove(AMOUNT.id());
         assertMissingField(tuple._1, AMOUNT);
 
@@ -55,7 +55,7 @@ public class TradeParserTest {
     @Test
     public void parse_trade_missing_price(){
 
-        Tuple2<JSONObject, Trade> tuple = TestTradeUtils.jsonTrade();
+        Tuple2<JSONObject, Trade> tuple = TestTradeHelpers.jsonTrade();
         tuple._1().remove(PRICE.id());
         assertMissingField(tuple._1, PRICE);
 
@@ -65,7 +65,7 @@ public class TradeParserTest {
     @Test
     public void parse_trade_missing_side(){
 
-        Tuple2<JSONObject, Trade> tuple = TestTradeUtils.jsonTrade();
+        Tuple2<JSONObject, Trade> tuple = TestTradeHelpers.jsonTrade();
         tuple._1().remove(SIDE.id());
         assertMissingField(tuple._1, SIDE);
 

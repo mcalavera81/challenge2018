@@ -1,9 +1,9 @@
 package demo.order.source.poller.client;
 
 import demo.order.source.poller.dto.OrderBookSnapshot;
-import demo.shared.parser.UtilParser.BitsoBook;
-import demo.shared.rest.RestClient;
-import demo.shared.rest.SimpleRateLimiter;
+import demo.app.Constants.BitsoBook;
+import demo.support.rest.RestClient;
+import demo.support.rest.SimpleRateLimiter;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.isDiffOrderBatch;
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.parseBatch;
-import static demo.shared.parser.UtilParser.getStackTrace;
+import static demo.support.helpers.TransformHelpers.getStackTrace;
 
 @Slf4j
 public class OrderBuffer {

@@ -1,68 +1,37 @@
 package demo.order.view;
 
 import demo.order.business.state.Order;
-import demo.shared.formatter.UtilFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import java.time.ZonedDateTime;
 
 import static demo.order.view.OrderTableRow.OrderViewField.*;
+import static demo.support.helpers.DateTimeHelpers.orderDateFormat;
+import static demo.support.helpers.TransformHelpers.formatMajor;
+import static demo.support.helpers.TransformHelpers.formatMinor;
 
 @NoArgsConstructor
 public class OrderTableRow {
 
 
-    private final static DecimalFormat minorFormat =
-        new DecimalFormat("0.00");
-
-
-    private final static DecimalFormat majorFormat =
-        new DecimalFormat("0.00000000");
-
-    public enum OrderViewField {
-        ID("id", "Id"),
-        TIMESTAMP("timestamp", "Timestamp"),
-        PRICE("price", "Price"),
-        AMOUNT("amount", "Amount"),
-        VALUE("value", "Value"),
-        SUM("sum", "Sum");
-
-        private final String id;
-        private final String name;
-
-        OrderViewField(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String id() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-
-    private final StringProperty id = new SimpleStringProperty(this, ID.id());
-    private final StringProperty timestamp = new SimpleStringProperty(this, TIMESTAMP.id());
-    private final StringProperty price = new SimpleStringProperty(this, PRICE.id());
-    private final StringProperty amount = new SimpleStringProperty(this, AMOUNT.id());
-    private final StringProperty value = new SimpleStringProperty(this, VALUE.id());
-    private final StringProperty sum = new SimpleStringProperty(this, SUM.id());
-
+    private final StringProperty id = prop(this, ID);
+    private final StringProperty timestamp = prop(this, TIMESTAMP);
+    private final StringProperty price = prop(this, PRICE);
+    private final StringProperty amount = prop(this, AMOUNT);
+    private final StringProperty value = prop(this, VALUE);
+    private final StringProperty sum = prop(this, SUM);
 
     public static OrderTableRow build(Order o,
-                                       BigDecimal sumAccumulated) {
+                                      BigDecimal sumAccumulated) {
         OrderTableRow row = new OrderTableRow();
 
         row.setId(o.getId());
         row.setAmount(o.getAmount());
         row.setPrice(o.getPrice());
-        row.setTimestamp(UtilFormatter.orderDateFormat(o.getTimestamp()));
+        row.setTimestamp(o.getTimestamp());
         row.setValue(o.getValue());
         row.setSum(sumAccumulated);
         return row;
@@ -88,8 +57,8 @@ public class OrderTableRow {
         return timestampProperty().get();
     }
 
-    void setTimestamp(String timestamp) {
-        this.timestampProperty().set(timestamp);
+    void setTimestamp(ZonedDateTime timestamp) {
+        this.timestampProperty().set(orderDateFormat(timestamp));
     }
 
     private StringProperty priceProperty() {
@@ -101,7 +70,7 @@ public class OrderTableRow {
     }
 
     void setPrice(BigDecimal price) {
-        priceProperty().set(minorFormat.format(price));
+        priceProperty().set(formatMinor(price));
     }
 
     private StringProperty amountProperty() {
@@ -113,7 +82,7 @@ public class OrderTableRow {
     }
 
     void setAmount(BigDecimal amount) {
-        amountProperty().set(majorFormat.format(amount));
+        amountProperty().set(formatMajor(amount));
     }
 
     private StringProperty valueProperty() {
@@ -125,7 +94,7 @@ public class OrderTableRow {
     }
 
     public void setValue(BigDecimal value) {
-        valueProperty().set(minorFormat.format(value));
+        valueProperty().set(formatMinor(value));
     }
 
     private StringProperty sumProperty() {
@@ -137,8 +106,35 @@ public class OrderTableRow {
     }
 
     void setSum(BigDecimal sum) {
-        sumProperty().set(majorFormat.format(sum));
+        sumProperty().set(formatMajor(sum));
     }
 
+    private SimpleStringProperty prop(Object bean, OrderViewField field){
+        return new SimpleStringProperty(bean, field.id());
+    }
 
+    public enum OrderViewField {
+        ID("id", "Id"),
+        TIMESTAMP("timestamp", "Timestamp"),
+        PRICE("price", "Price"),
+        AMOUNT("amount", "Amount"),
+        VALUE("value", "Value"),
+        SUM("sum", "Sum");
+
+        private final String id;
+        private final String name;
+
+        OrderViewField(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String id() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 }

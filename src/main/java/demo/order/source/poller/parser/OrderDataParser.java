@@ -1,8 +1,8 @@
 package demo.order.source.poller.parser;
 
-import demo.order.helpers.WithId;
+import demo.support.helpers.WithId;
 import demo.order.source.poller.dto.OrderData;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.TransformHelpers;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import org.json.JSONObject;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import static demo.order.source.poller.parser.OrderDataParser.OrderField.*;
-import static demo.shared.parser.UtilParser.*;
+import static demo.support.parser.JsonParser.*;
 
 public class OrderDataParser {
 
@@ -31,14 +31,14 @@ public class OrderDataParser {
     public static Try<OrderData> parseOrderData(JSONObject json){
 
         Validation<OrderDataParserException, OrderData> orderEntries =
-                getValidation(getBigDecimal(json, PRICE)).
-                        combine(getValidation(getBigDecimal(json, AMOUNT))).
-                        combine(getValidation(getString(json,ID)))
+                TransformHelpers.getValidation(getBigDecimal(json, PRICE)).
+                        combine(TransformHelpers.getValidation(getBigDecimal(json, AMOUNT))).
+                        combine(TransformHelpers.getValidation(getString(json,ID)))
                         .ap((price, amount, id) ->
                                 OrderData.builder().id(id).price(price).amount(amount).build())
                         .mapError(error-> OrderDataParserException.build(error.asJava()));
 
-        return UtilParser.toTry(orderEntries);
+        return TransformHelpers.toTry(orderEntries);
 
 
     }

@@ -55,8 +55,6 @@ public class OrderBookController {
 
 
             table.getColumns().setAll(
-                    //newColumn(OrderViewField.ID),
-                    //newColumn(OrderViewField.TIMESTAMP),
                 newColumn(OrderTableRow.OrderViewField.PRICE,table,0.25),
                 newColumn(OrderTableRow.OrderViewField.AMOUNT,table,0.25),
                 newColumn(OrderTableRow.OrderViewField.VALUE,table,0.25),

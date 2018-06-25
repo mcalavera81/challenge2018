@@ -2,7 +2,7 @@ package demo.trade.business.algorithm;
 
 import demo.trade.business.state.Trade;
 import demo.trade.business.state.Trade.TradeType;
-import demo.trade.parser.TestTradeUtils;
+import demo.trade.TestTradeHelpers;
 import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 public class ContrarianTradingStrategyTest {
 
 
-    private TradingAlgorithm simulator;
+    private TradingStrategy simulator;
 
     @Before
     public void init() {
@@ -34,7 +34,7 @@ public class ContrarianTradingStrategyTest {
     public void test_no_triggers(){
 
         double[] pricesDesc = {40, 20, 10, 20, 10, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
 
         assertThat(trades, hasSize(pricesDesc.length));
@@ -44,7 +44,7 @@ public class ContrarianTradingStrategyTest {
     public void test_one_sell_one_buy(){
 
         double[] pricesDesc = {70, 11, 12, 16, 18, 11, 10.5, 10, 10, 9.5, 10, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
 
         assertThat(trades, hasSize(pricesDesc.length+2));
@@ -63,7 +63,7 @@ public class ContrarianTradingStrategyTest {
     public void test_two_sells_with_reprocessing(){
 
         double[] pricesDesc = {101, 90, 73, 62, 50, 20, 10, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
 
         assertThat(trades, hasSize(pricesDesc.length + 2));
@@ -86,7 +86,7 @@ public class ContrarianTradingStrategyTest {
     public void test_selling_after_3_upticks(){
 
         final double[] pricesDesc = {30, 20, 10, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
 
 
@@ -102,7 +102,7 @@ public class ContrarianTradingStrategyTest {
     public void test_selling_after_3_upticks_reprocessing(){
 
         final double[] pricesDesc = {30, 20, 10, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
         simulator.run(trades);
 
@@ -116,7 +116,7 @@ public class ContrarianTradingStrategyTest {
     public void test_2_downticks(){
 
         final double[] pricesDesc = {10, 20, 30, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
 
         assertThat(trades, hasSize(pricesDesc.length+1));
@@ -129,7 +129,7 @@ public class ContrarianTradingStrategyTest {
     public void test_2_downticks_reprocessing(){
 
         final double[] pricesDesc = {10, 20, 30, 0};
-        val trades = TestTradeUtils.randTradesWithPrices(pricesDesc);
+        val trades = TestTradeHelpers.randTradesWithPrices(pricesDesc);
         simulator.run(trades);
         simulator.run(trades);
 

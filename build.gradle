@@ -9,7 +9,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 
-mainClassName = "demo.app.Main"
+mainClassName = "demo.Main"
 
 ext{
     //dependencies
@@ -67,10 +67,6 @@ sourceSets {
 
         }
     }
-}
-
-processResources {
-    includeEmptyDirs = false
 }
 
 test {

@@ -34,14 +34,6 @@ public class SyncHashMapOrderBook implements OrderBook {
     }
 
 
-    public List<Ask> getAsks() {
-        return asks.getSorted();
-    }
-
-    public List<Bid> getBids() {
-        return bids.getSorted();
-    }
-
     @Override
     public List<Ask> getAsks(int... n) {
         return asks.getSorted(n);

@@ -1,11 +1,12 @@
 package demo.order.source.stream.parser;
 
 
-import demo.order.helpers.WithId;
+import demo.support.helpers.WithId;
 import demo.order.source.stream.dto.DiffOrder;
 import demo.order.source.stream.dto.DiffOrdersBatch;
 import demo.order.source.poller.parser.OrderBookSnaphsotParser;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.TransformHelpers;
+import demo.support.parser.JsonParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 import static demo.order.source.stream.parser.DiffOrdersBatchParser.DiffOrdersBatchField.*;
-import static demo.shared.parser.UtilParser.getLong;
-import static demo.shared.parser.UtilParser.getValidation;
+import static demo.support.parser.JsonParser.getLong;
+import static demo.support.helpers.TransformHelpers.getValidation;
 
 
 @Slf4j
@@ -54,7 +55,7 @@ public class DiffOrdersBatchParser {
                         .ap(DiffOrdersBatch::new)
                         .mapError(error -> DiffOrderParserException.build(error.asJava()));
 
-                return UtilParser.toTry(diffOrdersUpdates);
+                return TransformHelpers.toTry(diffOrdersUpdates);
 
             }else{
                 log.error(String.format("Wrong type %s", messageType));
@@ -64,7 +65,7 @@ public class DiffOrdersBatchParser {
 
         }catch (Exception e){
             log.warn(String.format("Exception unmarshalling the order book %s",
-                    UtilParser.getStackTrace(e)));
+                    TransformHelpers.getStackTrace(e)));
             return Try.failure(new OrderBookSnaphsotParser.OrderBookParserException(e));
         }
     }
@@ -86,7 +87,7 @@ public class DiffOrdersBatchParser {
     }
 
     public static boolean isDiffOrderBatch(JSONObject json) {
-        return UtilParser.getString(json, CHANNEL).map(DIFF_ORDERS::equals).getOrElse(false)
+        return JsonParser.getString(json, CHANNEL).map(DIFF_ORDERS::equals).getOrElse(false)
                 && json.has(PAYLOAD.id());
     }
 

@@ -1,14 +1,15 @@
 package demo.trade.business.state;
 
-import demo.shared.parser.UtilParser;
-import demo.shared.parser.UtilParser.BitsoBook;
+import demo.app.Constants;
+import demo.support.helpers.DateTimeHelpers;
+import demo.support.helpers.TransformHelpers;
 import lombok.val;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static demo.TestUtils.randAmount;
-import static demo.TestUtils.randPrice;
-import static demo.trade.parser.TestTradeUtils.*;
+import static demo.TestHelpers.randAmount;
+import static demo.TestHelpers.randPrice;
+import static demo.trade.TestTradeHelpers.*;
 
 public class TradeTest {
 
@@ -16,11 +17,11 @@ public class TradeTest {
     @Test
     public void test_builder_trade_by_default_is_real(){
         final val trade = Trade.builder()
-            .book(BitsoBook.BTC_MXN.id())
-            .amount(UtilParser.bd(randAmount()))
-            .price(UtilParser.bd(randPrice()))
+            .book(Constants.BitsoBook.BTC_MXN.id())
+            .amount(TransformHelpers.bd(randAmount()))
+            .price(TransformHelpers.bd(randPrice()))
             .id(randTradeId())
-            .timestamp(UtilParser.now())
+            .timestamp(DateTimeHelpers.now())
             .type(randType())
             .build();
 
@@ -36,10 +37,10 @@ public class TradeTest {
             ()->
                 Trade.builder()
                     .book(null)
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(randTradeId())
-                    .timestamp(UtilParser.now())
+                    .timestamp(DateTimeHelpers.now())
                     .type(randType())
                     .source(randSource())
                     .build());
@@ -48,11 +49,11 @@ public class TradeTest {
             NullPointerException.class,
             ()->
                 Trade.builder()
-                    .book(BitsoBook.BTC_MXN.id())
+                    .book(Constants.BitsoBook.BTC_MXN.id())
                     .amount(null)
-                    .price(UtilParser.bd(randPrice()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(randTradeId())
-                    .timestamp(UtilParser.now())
+                    .timestamp(DateTimeHelpers.now())
                     .type(randType())
                     .source(randSource())
                     .build());
@@ -62,11 +63,11 @@ public class TradeTest {
             NullPointerException.class,
             ()->
                 Trade.builder()
-                    .book(BitsoBook.BTC_MXN.id())
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .book(Constants.BitsoBook.BTC_MXN.id())
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(null)
-                    .timestamp(UtilParser.now())
+                    .timestamp(DateTimeHelpers.now())
                     .type(randType())
                     .source(randSource())
                     .build());
@@ -76,9 +77,9 @@ public class TradeTest {
             NullPointerException.class,
             ()->
                 Trade.builder()
-                    .book(BitsoBook.BTC_MXN.id())
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .book(Constants.BitsoBook.BTC_MXN.id())
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(randTradeId())
                     .timestamp(null)
                     .type(randType())
@@ -89,11 +90,11 @@ public class TradeTest {
             NullPointerException.class,
             ()->
                 Trade.builder()
-                    .book(BitsoBook.BTC_MXN.id())
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .book(Constants.BitsoBook.BTC_MXN.id())
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(randTradeId())
-                    .timestamp(UtilParser.now())
+                    .timestamp(DateTimeHelpers.now())
                     .type(null)
                     .source(randSource())
                     .build());
@@ -102,11 +103,11 @@ public class TradeTest {
             NullPointerException.class,
             ()->
                 Trade.builder()
-                    .book(BitsoBook.BTC_MXN.id())
-                    .amount(UtilParser.bd(randAmount()))
-                    .price(UtilParser.bd(randPrice()))
+                    .book(Constants.BitsoBook.BTC_MXN.id())
+                    .amount(TransformHelpers.bd(randAmount()))
+                    .price(TransformHelpers.bd(randPrice()))
                     .id(randTradeId())
-                    .timestamp(UtilParser.now())
+                    .timestamp(DateTimeHelpers.now())
                     .type(randType())
                     .source(null)
                     .build());

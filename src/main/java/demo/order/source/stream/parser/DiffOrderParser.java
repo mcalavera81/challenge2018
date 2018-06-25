@@ -1,11 +1,11 @@
 package demo.order.source.stream.parser;
 
 import demo.order.source.poller.dto.OrderData;
-import demo.order.helpers.WithId;
+import demo.support.helpers.WithId;
 import demo.order.source.stream.dto.DiffOrder;
 import demo.order.source.stream.dto.DiffOrder.OrderStatus;
 import demo.order.source.stream.dto.DiffOrder.OrderType;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.TransformHelpers;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static demo.order.source.stream.parser.DiffOrderParser.DiffOrderField.*;
-import static demo.shared.parser.UtilParser.*;
+import static demo.support.parser.JsonParser.*;
 
 public class DiffOrderParser {
 
@@ -35,10 +35,10 @@ public class DiffOrderParser {
 
     public static Try<DiffOrder> parseDiffOrder(JSONObject o) {
         Validation<DiffOrderException, DiffOrder> diffOrder =
-            getValidation(getDateFromMillis(o, TIMESTAMP))
-                .combine(getValidation(getBigDecimal(o, RATE)))
-                .combine(getValidation((getInt(o, TYPE).flatMap(OrderType::fromInt))))
-                .combine(getValidation(getString(o, ORDER_ID)))
+            TransformHelpers.getValidation(getDateFromMillis(o, TIMESTAMP))
+                .combine(TransformHelpers.getValidation(getBigDecimal(o, RATE)))
+                .combine(TransformHelpers.getValidation((getInt(o, TYPE).flatMap(OrderType::fromInt))))
+                .combine(TransformHelpers.getValidation(getString(o, ORDER_ID)))
                 .ap((date, rate, type, orderId) ->{
 
 
@@ -57,7 +57,7 @@ public class DiffOrderParser {
                 })
                 .mapError(error -> DiffOrderException.build(error.asJava()));
 
-        return UtilParser.toTry(diffOrder);
+        return TransformHelpers.toTry(diffOrder);
 
     }
 

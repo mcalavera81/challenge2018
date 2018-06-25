@@ -1,8 +1,8 @@
 package demo.trade.source.parser;
 
-import demo.TestUtils;
+import demo.TestHelpers;
 import demo.order.source.poller.parser.OrderBookSnaphsotParser.ResponseServerException;
-import demo.shared.parser.UtilParser.ParserException;
+import demo.support.parser.JsonParser.ParserException;
 import demo.trade.source.dto.TradesBatch;
 import demo.trade.source.parser.TradeParser.TradeParserException;
 import io.vavr.control.Try;
@@ -19,7 +19,7 @@ public class TradeBatchParserTest {
     @Test
     public void trade_batch_missing_success(){
         String filename="trade/trade_batch_missing_success.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         Try<TradesBatch> tradeBatch = TradesBatch.build(json.get());
         assertTrue(tradeBatch.isFailure());
@@ -31,7 +31,7 @@ public class TradeBatchParserTest {
     @Test
     public void trade_batch_missing_payload(){
         String filename="trade/trade_batch_missing_payload.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         Try<TradesBatch> tradeBatch = TradesBatch.build(json.get());
         assertTrue(tradeBatch.isFailure());
@@ -43,7 +43,7 @@ public class TradeBatchParserTest {
     @Test
     public void test_order_book_error() {
         String filename = "trade/trade_batch_error.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         val tradeBatch = TradesBatch.build(json.get());
         assertTrue(tradeBatch.isFailure());
@@ -55,7 +55,7 @@ public class TradeBatchParserTest {
     @Test
     public void trade_batch_ok(){
         String filename="trade/trade_batch_ok.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         val tradeBatch = TradesBatch.build(json.get());
         assertTrue(tradeBatch.isSuccess());
@@ -67,7 +67,7 @@ public class TradeBatchParserTest {
     @Test
     public void trade_batch_failed_trade(){
         String filename="trade/trade_batch_failed_trade.json";
-        Try<JSONObject> json = TestUtils.loadJson(filename);
+        Try<JSONObject> json = TestHelpers.loadJson(filename);
 
         val tradeBatch = TradesBatch.build(json.get());
         assertTrue(tradeBatch.isFailure());

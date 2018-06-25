@@ -1,12 +1,10 @@
 package demo.view;
 
-import demo.app.Backend;
-import demo.app.Frontend;
-import demo.app.FrontendJavaFx;
-import demo.order.business.state.OrderBook;
+import demo.app.backend.Backend;
+import demo.app.frontend.Frontend;
+import demo.app.frontend.FrontendJavaFx;
+import demo.app.config.AppConfiguration;
 import demo.order.view.OrderTableRow.OrderViewField;
-import demo.shared.config.AppConfiguration;
-import demo.trade.business.state.RecentTradesLog;
 import demo.trade.view.TradeTableRow.TradeViewField;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -24,9 +22,9 @@ import org.testfx.framework.junit.ApplicationTest;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static demo.order.source.TestParserOrderUtils.randAsk;
-import static demo.order.source.TestParserOrderUtils.randBid;
-import static demo.trade.parser.TestTradeUtils.randTrades;
+import static demo.order.TestOrderHelpers.randAsk;
+import static demo.order.TestOrderHelpers.randBid;
+import static demo.trade.TestTradeHelpers.randTrades;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -45,23 +43,15 @@ public class UiTest extends ApplicationTest {
     private static final String TRADES_TABLE_ID = "#tradeTable";
 
 
-    private static Frontend frontend;
-
     @BeforeClass
     public static void beforeClass() throws Exception {
 
         // --------------- GIVEN ------------------------------
 
         FxToolkit.registerPrimaryStage();
-        AppConfiguration conf = AppConfiguration.tryBuild();
+        AppConfiguration conf = AppConfiguration.getInstance();
 
         final Backend backend = mock(Backend.class,RETURNS_DEEP_STUBS);
-        ///val backend = mock(Backend.class);
-        val orderBook = mock(OrderBook.class);
-        val tradesLog = mock(RecentTradesLog.class);
-
-        //Mockito.when(backend.getOrderBook()).thenReturn(orderBook);
-        //Mockito.when(backend.getRecentTradesLog()).thenReturn(tradesLog);
 
         Mockito.when(backend.getOrderBook().getAsks(any()))
             .thenReturn(Collections.singletonList(randAsk()));
@@ -76,7 +66,7 @@ public class UiTest extends ApplicationTest {
             .getRecentTrades(anyInt()))
             .thenReturn(randTrades(3));
 
-        frontend = FrontendJavaFx.of(conf.getFrontendConfig(), backend);
+        Frontend frontend = FrontendJavaFx.of(conf.getFrontendConfig(), backend);
         frontend.start();
 
         FxToolkit.setupScene(frontend::buildScene);

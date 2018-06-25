@@ -1,13 +1,13 @@
 package demo.order.source.poller;
 
+import demo.app.Constants;
 import demo.order.source.poller.dto.OrderData;
 import demo.order.source.poller.parser.OrderDataParser.OrderDataParserException;
-import demo.shared.parser.UtilParser.BitsoBook;
 import io.vavr.control.Try;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import static demo.TestUtils.loadJson;
+import static demo.TestHelpers.loadJson;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertTrue;
@@ -70,7 +70,7 @@ public class OrderDataParserTest {
 
     private JSONObject OrderData(String price, String amount, String oid){
         return new JSONObject().
-            put("book", BitsoBook.BTC_MXN.id()).
+            put("book", Constants.BitsoBook.BTC_MXN.id()).
             put("price",price).
             put("amount",amount).
             put("oid",oid);

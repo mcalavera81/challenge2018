@@ -90,14 +90,12 @@ public class RecentTradesController {
         public static void setupColumns(TableView<TradeTableRow> table ){
 
             table.getColumns().setAll(
-                    //newColumn(TradeViewField.ID, table,0.1),
                     newColumn(TradeTableRow.TradeViewField.TIMESTAMP,table, 0.2),
                     newColumn(TradeTableRow.TradeViewField.PRICE,table,0.1),
                     newColumn(TradeTableRow.TradeViewField.AMOUNT,table,0.1),
                     newColumn(TradeTableRow.TradeViewField.VALUE,table,0.1),
                     newColumn(TradeTableRow.TradeViewField.SOURCE,table,0.1),
                     newColumn(TradeTableRow.TradeViewField.TYPE,table,0.1)
-                    //newColumn(TradeViewField.BOOK,table,0.1)
             );
 
         }

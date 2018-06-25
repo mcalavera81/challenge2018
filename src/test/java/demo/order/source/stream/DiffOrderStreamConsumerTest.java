@@ -1,8 +1,8 @@
 package demo.order.source.stream;
 
 import demo.order.source.stream.client.DiffOrderStreamConsumer;
-import demo.shared.config.AppConfiguration;
-import demo.shared.service.ThreadRunner;
+import demo.app.config.AppConfiguration;
+import demo.support.thread.ThreadRunner;
 import lombok.val;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.ws.WebSocket;
@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
-import static demo.TestUtils.withDefault;
+import static demo.TestHelpers.withDefault;
 import static junit.framework.TestCase.assertTrue;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 
@@ -74,7 +74,7 @@ public class DiffOrderStreamConsumerTest {
     @Test
     public void test_subscription_diff_order_channel() throws Exception  {
 
-        final AppConfiguration conf = AppConfiguration.tryBuild();
+        final AppConfiguration conf = AppConfiguration.getInstance();
 
         CompletableFuture<Boolean> subscriptionResponse = new CompletableFuture<>();
         CompletableFuture<Boolean> closedResponse = new CompletableFuture<>();

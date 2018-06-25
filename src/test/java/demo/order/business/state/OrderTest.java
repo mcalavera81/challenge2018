@@ -5,8 +5,8 @@ import demo.order.business.state.Order.Bid;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static demo.order.source.TestParserOrderUtils.randOrderData;
-import static demo.shared.parser.UtilParser.now;
+import static demo.order.TestOrderHelpers.randOrderData;
+import static demo.support.helpers.DateTimeHelpers.now;
 
 public class OrderTest {
 

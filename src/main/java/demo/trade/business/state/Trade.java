@@ -24,7 +24,7 @@ public class Trade {
     }
 
     public enum TradeSource{
-        REAL, SIMULATED;
+        REAL, SIMULATED
     }
 
     public enum TradeType{

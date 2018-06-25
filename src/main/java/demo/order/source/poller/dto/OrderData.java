@@ -5,7 +5,6 @@ import io.vavr.control.Try;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ import java.util.Objects;
 
 @Builder
 @Getter
-@ToString
+//@ToString
 public class OrderData {
 
     @NonNull

@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static demo.order.source.TestParserOrderUtils.orderBatch;
+import static demo.order.TestOrderHelpers.orderBatch;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.BUY;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.SELL;
 import static junit.framework.TestCase.assertTrue;

@@ -1,6 +1,6 @@
 package demo.trade.source.parser;
 
-import demo.shared.parser.UtilParser;
+import demo.support.parser.JsonParser;
 import demo.trade.business.state.Trade;
 import demo.trade.source.dto.TradesBatch;
 import io.vavr.control.Try;
@@ -16,7 +16,7 @@ public class TradeBatchParser {
 
 
     public static Try<TradesBatch> parseTrades(JSONObject o) {
-        return UtilParser.parseRestJson(o, (JSONArray payload) ->
+        return JsonParser.parseRestJson(o, (JSONArray payload) ->
             geTradeEntries(payload).map(TradesBatch::new));
     }
 

@@ -2,7 +2,7 @@ package demo.order.view;
 
 import demo.order.business.state.Order;
 import demo.order.business.state.OrderBook;
-import demo.shared.service.ThreadRunner;
+import demo.support.thread.ThreadRunner;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import javafx.beans.property.ListProperty;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static demo.shared.parser.UtilParser.getStackTrace;
+import static demo.support.helpers.TransformHelpers.getStackTrace;
 import static io.vavr.collection.Stream.ofAll;
 
 @Slf4j
@@ -30,10 +30,7 @@ public class PollingOrderBookViewPopulator
     private final Integer maxOrders;
     private Thread bookThread;
 
-    private final ObservableList<OrderTableRow> bids;
     private final ListProperty<OrderTableRow> bidsProp;
-
-    private final ObservableList<OrderTableRow> asks;
     private final ListProperty<OrderTableRow> asksProp;
 
     private final OrderBook book;
@@ -47,10 +44,10 @@ public class PollingOrderBookViewPopulator
         this.maxOrders = maxOrders;
         this.book = book;
 
-        this.bids = FXCollections.observableArrayList(new ArrayList<>());
+        ObservableList<OrderTableRow> bids = FXCollections.observableArrayList(new ArrayList<>());
         this.bidsProp = new SimpleListProperty<>(bids);
 
-        this.asks = FXCollections.observableArrayList(new ArrayList<>());
+        ObservableList<OrderTableRow> asks = FXCollections.observableArrayList(new ArrayList<>());
         this.asksProp = new SimpleListProperty<>(asks);
     }
 
@@ -76,36 +73,8 @@ public class PollingOrderBookViewPopulator
 
         try{
             while(bookThread == thisThread){
-
-                final List<Order.Ask> asks = book.getAsks(maxOrders);
-
-                List<OrderTableRow> askRows = ofAll(asks)
-                    .foldLeft(
-                        Tuple.of(new LinkedList<OrderTableRow>(), BigDecimal.ZERO),
-                        (Tuple2<List<OrderTableRow>, BigDecimal> acc, Order.Ask ask) -> {
-                            val sum = ask.getAmount().add(acc._2);
-                            acc._1().add(OrderTableRow.build(ask, sum));
-                            return Tuple.of(acc._1, sum);
-
-                        })._1;
-
-                getAsksProp().setAll(askRows);
-
-                final List<Order.Bid> bids = book.getBids(maxOrders);
-
-                List<OrderTableRow> bidsRows = ofAll(bids)
-                    .foldLeft(
-                        Tuple.of(new LinkedList<OrderTableRow>(), BigDecimal.ZERO),
-                        (Tuple2<List<OrderTableRow>, BigDecimal> acc, Order.Bid
-                            bid) -> {
-                            val sum = bid.getAmount().add(acc._2);
-                            acc._1().add(OrderTableRow.build(bid, sum));
-                            return Tuple.of(acc._1, sum);
-
-                        })._1;
-
-                getBidsProp().setAll(bidsRows);
-
+                updateAskRows();
+                updateBidRows();
                 Thread.sleep(this.pollIntervalMs);
             }
         } catch (Exception e) {
@@ -115,6 +84,31 @@ public class PollingOrderBookViewPopulator
 
         return null;
     }
+
+    private void updateBidRows() {
+        final List<Order.Bid> bids = book.getBids(maxOrders);
+        List<OrderTableRow> bidsRows = mapOrdersToRows(bids);
+        getBidsProp().setAll(bidsRows);
+    }
+
+    private void updateAskRows() {
+        final List<Order.Ask> asks = book.getAsks(maxOrders);
+        List<OrderTableRow> askRows = mapOrdersToRows(asks);
+        getAsksProp().setAll(askRows);
+    }
+
+    private List<OrderTableRow> mapOrdersToRows(List<? extends Order> bids) {
+        return ofAll(bids)
+            .foldLeft(
+                Tuple.of(new LinkedList<>(), BigDecimal.ZERO),
+                (Tuple2<List<OrderTableRow>, BigDecimal> acc, Order bid)-> {
+                    val sum = bid.getAmount().add(acc._2);
+                    acc._1.add(OrderTableRow.build(bid, sum));
+                    return Tuple.of(acc._1, sum);
+
+                })._1;
+    }
+
 
 
     @Override

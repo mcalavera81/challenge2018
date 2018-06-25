@@ -1,6 +1,6 @@
 package demo.trade.view;
 
-import demo.shared.service.ThreadRunner;
+import demo.support.thread.ThreadRunner;
 import demo.trade.business.state.RecentTradesLog;
 import demo.trade.business.state.Trade;
 import demo.trade.view.TradeTableRow.TradeRowType;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static demo.shared.parser.UtilParser.getStackTrace;
+import static demo.support.helpers.TransformHelpers.getStackTrace;
 import static demo.trade.business.state.Trade.TradeType.SELL;
 import static demo.trade.view.TradeTableRow.TradeRowType.SIMULATED_BUY;
 import static demo.trade.view.TradeTableRow.TradeRowType.SIMULATED_SELL;
@@ -27,7 +27,6 @@ public class PollingRecentTradesLogViewPopulator
     extends Task<ObservableList<TradeTableRow>>
     implements ThreadRunner, TradeViewPopulator {
 
-    private final ObservableList<TradeTableRow> tradeRows;
     private final ListProperty<TradeTableRow> tradeRowsProp;
 
 
@@ -46,7 +45,7 @@ public class PollingRecentTradesLogViewPopulator
         this.maxTrades = maxTrades;
         this.tradesLog = tradesLog;
 
-        this.tradeRows = FXCollections.observableArrayList(new ArrayList<>());
+        ObservableList<TradeTableRow> tradeRows = FXCollections.observableArrayList(new ArrayList<>());
         tradeRowsProp = new SimpleListProperty<>(tradeRows);
     }
 
@@ -72,11 +71,7 @@ public class PollingRecentTradesLogViewPopulator
         try {
             while (tradesThread == thisThread) {
 
-                List<Trade> recentTrades = tradesLog.getRecentTrades(this.maxTrades);
-
-                List<TradeTableRow> tableRows = fromTradesToTableRows(recentTrades);
-                //getTradeProp().clear();
-                getTradeProp().setAll(tableRows);
+                updateTradeRows();
 
                 Thread.sleep(this.pollIntervalMs);
             }
@@ -86,6 +81,13 @@ public class PollingRecentTradesLogViewPopulator
         }
 
         return null;
+    }
+
+    private void updateTradeRows() {
+        List<Trade> recentTrades = tradesLog.getRecentTrades(this.maxTrades);
+        List<TradeTableRow> tableRows = fromTradesToTableRows(recentTrades);
+        //getTradeProp().clear();
+        getTradeProp().setAll(tableRows);
     }
 
     private List<TradeTableRow> fromTradesToTableRows(List<Trade> recentTrades) {

@@ -4,7 +4,7 @@ import demo.order.business.state.SyncHashMapOrderBook;
 import demo.order.source.poller.client.OrderBookSource;
 import demo.order.source.poller.dto.OrderBookSnapshot;
 import demo.order.source.stream.client.OrderBuffer;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.DateTimeHelpers;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
 import org.json.JSONObject;
@@ -18,11 +18,11 @@ import org.mockito.stubbing.Answer;
 import java.util.Arrays;
 import java.util.List;
 
-import static demo.TestUtils.*;
-import static demo.order.source.TestParserOrderUtils.*;
+import static demo.TestHelpers.*;
+import static demo.order.TestOrderHelpers.*;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.BUY;
 import static demo.order.source.stream.dto.DiffOrder.OrderType.SELL;
-import static demo.shared.formatter.UtilFormatter.orderDateFormat;
+import static demo.support.helpers.DateTimeHelpers.orderDateFormat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
@@ -232,7 +232,7 @@ public class BookSynchronizerTest {
             Stream.ofAll(sequence).map($ ->
                 book(
                     $,
-                    orderDateFormat(UtilParser.now()),
+                    orderDateFormat(DateTimeHelpers.now()),
                     Option.of(bids),
                     Option.of(asks))).toJavaList();
 

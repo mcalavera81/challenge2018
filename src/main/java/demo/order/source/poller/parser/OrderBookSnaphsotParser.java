@@ -1,9 +1,10 @@
 package demo.order.source.poller.parser;
 
-import demo.order.helpers.WithId;
+import demo.support.helpers.WithId;
 import demo.order.source.poller.dto.OrderBookSnapshot;
 import demo.order.source.poller.dto.OrderData;
-import demo.shared.parser.UtilParser;
+import demo.support.helpers.TransformHelpers;
+import demo.support.parser.JsonParser;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static demo.order.source.poller.parser.OrderBookSnaphsotParser.ResponseServerException.ResponseServerErrorField.CODE;
 import static demo.order.source.poller.parser.OrderBookSnaphsotParser.ResponseServerException.ResponseServerErrorField.MESSAGE;
-import static demo.shared.parser.UtilParser.*;
+import static demo.support.parser.JsonParser.*;
 
 @Slf4j
 public class OrderBookSnaphsotParser {
@@ -37,22 +38,22 @@ public class OrderBookSnaphsotParser {
 
     public static Try<OrderBookSnapshot> parseOrderBook(JSONObject o){
 
-        return UtilParser.parseRestJson(o, (JSONObject payload) -> {
+        return JsonParser.parseRestJson(o, (JSONObject payload) -> {
 
             Validation<OrderBookParserException, OrderBookSnapshot> orderBooks =
-                    getValidation(getLong(payload, OrderBookField.BOOK_SEQUENCE))
-                            .combine(getValidation(getDateFromString(payload,OrderBookField.UPDATED_AT)))
+                    TransformHelpers.getValidation(getLong(payload, OrderBookField.BOOK_SEQUENCE))
+                            .combine(TransformHelpers.getValidation(getDateFromString(payload,OrderBookField.UPDATED_AT)))
                             .combine(geOrderEntries(payload, OrderBookField.BIDS))
                             .combine(geOrderEntries(payload, OrderBookField.ASKS))
                             .ap(OrderBookSnapshot::new)
                             .mapError(error -> OrderBookParserException.build(error.asJava()));
 
-            return toTry(orderBooks);
+            return TransformHelpers.toTry(orderBooks);
         });
     }
 
     private static Validation<String,OrderData[]> geOrderEntries(JSONObject json, OrderBookField name){
-        return getValidation(getJsonArray(json,name)).flatMap(array->
+        return TransformHelpers.getValidation(getJsonArray(json,name)).flatMap(array->
         {
             OrderData[] entries;
             int count = array.length();

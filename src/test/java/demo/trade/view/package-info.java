@@ -1,1 +1,0 @@
-package demo.trade.view;

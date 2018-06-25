@@ -4,14 +4,14 @@ import demo.order.business.state.OrderBook;
 import demo.order.source.poller.client.OrderBookSource;
 import demo.order.source.stream.client.OrderBuffer;
 import demo.order.source.stream.dto.DiffOrdersBatch;
-import demo.shared.service.ThreadRunner;
+import demo.support.thread.ThreadRunner;
 import io.vavr.collection.Stream;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
-import static demo.shared.parser.UtilParser.getStackTrace;
+import static demo.support.helpers.TransformHelpers.getStackTrace;
 
 @Slf4j
 public class BookSynchronizer implements Runnable, ThreadRunner {

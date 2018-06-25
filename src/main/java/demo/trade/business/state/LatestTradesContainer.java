@@ -1,6 +1,6 @@
 package demo.trade.business.state;
 
-import demo.trade.business.algorithm.TradingAlgorithm;
+import demo.trade.business.algorithm.TradingStrategy;
 import demo.trade.source.poller.TradesSource;
 import demo.trade.source.dto.TradesBatch;
 import lombok.NonNull;
@@ -14,7 +14,7 @@ public class LatestTradesContainer implements RecentTradesLog {
 
     private final Integer restDefaultLimit;
     private final TradesSource tradesSource;
-    private final TradingAlgorithm tradingAlgorithm;
+    private final TradingStrategy tradingStrategy;
     private final LimitedSizeRecentElementsQueue<Trade> queue;
 
     private Long maxId;
@@ -23,13 +23,13 @@ public class LatestTradesContainer implements RecentTradesLog {
         @NonNull TradesSource tradesSource,
         @NonNull Integer cacheSize,
         @NonNull Integer restDefaultLimit,
-        @NonNull TradingAlgorithm tradingAlgorithm
+        @NonNull TradingStrategy tradingStrategy
     ) {
         this.restDefaultLimit = restDefaultLimit;
         this.tradesSource = tradesSource;
         this.queue = new LimitedSizeRecentElementsQueue<>(cacheSize);
         this.maxId = Long.MIN_VALUE;
-        this.tradingAlgorithm = tradingAlgorithm;
+        this.tradingStrategy = tradingStrategy;
     }
 
 
@@ -42,7 +42,7 @@ public class LatestTradesContainer implements RecentTradesLog {
     public List<Trade> getRecentTrades(int maxTrades) {
         val recentTrades = tradesSource.getRecentTradesSortDesc(restDefaultLimit);
         recentTrades.onSuccess(this::processTradesBatch);
-        tradingAlgorithm.run(queue);
+        tradingStrategy.run(queue);
         return queue.getLatest(maxTrades);
     }
 

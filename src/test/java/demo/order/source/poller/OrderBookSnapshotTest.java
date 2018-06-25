@@ -5,7 +5,7 @@ import demo.order.source.poller.dto.OrderData;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static demo.shared.parser.UtilParser.now;
+import static demo.support.helpers.DateTimeHelpers.now;
 
 public class OrderBookSnapshotTest {
 
